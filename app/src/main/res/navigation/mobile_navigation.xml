@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_flights">
+
+    <fragment
+        android:id="@+id/navigation_flights"
+        android:name="com.ddr.ui.home.FlightsFragment"
+        android:label="@string/title_flights"
+        tools:layout="@layout/fragment_flights" />
+
+    <fragment
+        android:id="@+id/navigation_reservations"
+        android:name="com.ddr.ui.dashboard.ReservationsFragment"
+        android:label="@string/title_reservations"
+        tools:layout="@layout/fragment_reservations" />
+
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="com.ddr.ui.notifications.AccountFragment"
+        android:label="@string/title_account"
+        tools:layout="@layout/fragment_account" />
+</navigation>

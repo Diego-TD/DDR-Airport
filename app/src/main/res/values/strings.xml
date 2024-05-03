@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DDR</string>
+    <string name="title_flights">Flights</string>
+    <string name="title_reservations">Reservations</string>
+    <string name="title_check_in">Check-in</string>
+    <string name="title_account">Account</string>
+
+</resources>
