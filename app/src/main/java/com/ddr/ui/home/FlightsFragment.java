@@ -20,7 +20,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 public class FlightsFragment extends Fragment {
 
     private FragmentFlightsBinding binding;
-    private SearchView searchAirports;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
     private TextView oneWayButton;
@@ -84,7 +83,6 @@ public class FlightsFragment extends Fragment {
 
         final TextView textView = binding.bookYourFlightText;
         flightsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        searchAirports = root.findViewById(R.id.searchAirports);
         return root;
     }
 
