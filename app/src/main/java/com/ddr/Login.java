@@ -94,12 +94,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-    //        textView3.setOnClickListener(new View.OnClickListener() {
-    //            @Override
-    //            public void onClick(View v) {
-    //                System.out.println("Boton sign up");
-    //            }
-    //        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

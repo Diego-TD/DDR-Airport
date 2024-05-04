@@ -10,4 +10,10 @@
     <color name="principal">#1C2D35</color>
     <color name="secundario">#DDF4F3</color>
     <color name="terciario">#FAFEFB</color>
+        <color name="colorPrimary">#6200EE</color>
+        <color name="colorPrimaryDark">#3700B3</color>
+        <color name="colorAccent">#03DAC5</color>
+        <color name="background_light">#FFFFFF</color>
+
+
 </resources>
