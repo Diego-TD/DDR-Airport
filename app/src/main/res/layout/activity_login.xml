@@ -29,7 +29,7 @@
         android:id="@+id/imageView"
         android:layout_width="352dp"
         android:layout_height="120dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,8 +49,8 @@
 
     <TextView
         android:id="@+id/signUpButton"
-        android:layout_width="249dp"
-        android:layout_height="28dp"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="New? Sign Up - and start flying with us!"
         android:textColor="@color/black"
