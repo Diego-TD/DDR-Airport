@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_reservations"
-        android:name="com.ddr.ui.dashboard.ReservationsFragment"
+        android:name="com.ddr.ui.Reservations.ReservationsFragment"
         android:label="@string/title_reservations"
         tools:layout="@layout/fragment_reservations" />
 
