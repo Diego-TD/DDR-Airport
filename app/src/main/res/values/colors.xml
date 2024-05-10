@@ -14,6 +14,9 @@
         <color name="colorPrimaryDark">#3700B3</color>
         <color name="colorAccent">#03DAC5</color>
         <color name="background_light">#FFFFFF</color>
-
+    <!-- Colores para modo claro -->
+    <color name="text_color_light">@color/black</color>
+    <!-- Colores para modo oscuro -->
+    <color name="text_color_dark">@color/white</color>
 
 </resources>

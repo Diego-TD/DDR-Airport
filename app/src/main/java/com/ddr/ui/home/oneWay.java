@@ -1,43 +1,48 @@
 package com.ddr.ui.home;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.ddr.Login;
+import com.ddr.MainUserMenu;
 import com.ddr.R;
+import com.ddr.databinding.FragmentOneWayBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link oneWay#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Calendar;
+
 public class oneWay extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private TextView departure;
+    private TextView fromTextView;
 
     public oneWay() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment oneWay.
-     */
-    // TODO: Rename and change types and number of parameters
     public static oneWay newInstance(String param1, String param2) {
         oneWay fragment = new oneWay();
         Bundle args = new Bundle();
@@ -56,10 +61,76 @@ public class oneWay extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_one_way, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_one_way, container, false);
+        departure = rootView.findViewById(R.id.departure);
+        fromTextView = rootView.findViewById(R.id.fromTextView);
+        fromTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(requireContext(), SearchFlights.class);
+                startActivity(in);
+            }
+        });
+
+        departure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCalendarPopup();
+            }
+        });
+
+        return rootView;
     }
+
+    private void showCalendarPopup() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+//        DatePicker datePicker = new DatePicker();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                departure.setText(selectedDate);
+            }
+        }, year, month, dayOfMonth);
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+        datePickerDialog.show();
+
+
+    }
+
+
+
+
+//    private void openSearchPage(String query) {
+//        // Crea una nueva instancia del fragmento SearchFragment
+//        SearchFragment fragment = new SearchFragment();
+//
+//        // Crear un Bundle para pasar datos al nuevo fragmento si es necesario
+//        Bundle args = new Bundle();
+//        args.putString("query", query);
+//        fragment.setArguments(args);
+//
+//        // Obtener el FragmentManager y comenzar una transacción
+//        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//
+//        // Reemplazar el contenido actual del contenedor con el nuevo fragmento
+//        transaction.replace(R.id.fragment_container, fragment);
+//
+//        // Agregar la transacción a la pila de retroceso
+//        transaction.addToBackStack(null);
+//
+//        // Confirmar la transacción
+//        transaction.commit();
+//    }
+
+
 }

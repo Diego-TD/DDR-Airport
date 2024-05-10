@@ -90,8 +90,8 @@ public class Login extends AppCompatActivity {
                 else if (!editTextLogInPassword.getText().toString().equals("Password") && eye){
                     editTextLogInPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     eye = false;
+                    }
                 }
-            }
         });
 
         loginButton.setOnClickListener(new View.OnClickListener() {

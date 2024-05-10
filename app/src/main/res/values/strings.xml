@@ -4,5 +4,18 @@
     <string name="title_reservations">Reservations</string>
     <string name="title_check_in">Check-in</string>
     <string name="title_account">Account</string>
+    <string name="From">From\n</string>
+    <string name="to">To\n</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="info">
+        <item>New York City - Los Angeles</item>
+        <item>London - Paris</item>
+        <item>Tokyo - Seoul</item>
+        <item>Sydney - Melbourne</item>
+        <item>Rome - Madrid</item>
+        <item>Beijing - Shanghai</item>
+        <item>Mexico City - Cancun</item>
+    </string-array>
 
 </resources>
