@@ -34,6 +34,10 @@
             android:name=".MainUserMenu"
             android:exported="true"
             tools:ignore="WrongManifestParent" />
+        <activity
+            android:name=".ui.Reservations.BoardingPass"
+            android:exported="true"
+            tools:ignore="WrongManifestParent" />
     </application>
 
 </manifest>

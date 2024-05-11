@@ -1,9 +1,12 @@
 package com.ddr.ui.Reservations;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,11 +21,13 @@ import com.ddr.databinding.FragmentReservationsBinding;
 
 import java.util.ArrayList;
 
-public class ReservationsFragment extends Fragment {
+public class ReservationsFragment extends Fragment implements RecyclerViewInterface{
 
     private FragmentReservationsBinding binding;
     private ArrayList<ReservationsViewModel> reservationsViewModels = new ArrayList<>();
     private RecyclerViewAdapter adapter;
+    private int vueloId = R.drawable.vuelo;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,7 +36,7 @@ public class ReservationsFragment extends Fragment {
 
         RecyclerView recyclerView = root.findViewById(R.id.myRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new RecyclerViewAdapter(getContext(), reservationsViewModels);
+        adapter = new RecyclerViewAdapter(getContext(), reservationsViewModels, this);
         setUpReservationsModel();
         recyclerView.setAdapter(adapter);
 
@@ -67,10 +72,26 @@ public class ReservationsFragment extends Fragment {
         String[] numVuelo = {"78adn43", "65nj24d", "ka72n43", "mlf09f7g", "3m2ns6s", "cbgs342", "cnjddg7", "xcs532"};
 
         for (int i = 0; i < origenes.length; i++) {
-            reservationsViewModels.add(new ReservationsViewModel(destinos[i], origenes[i], horaSalida[i], horaLlegada[i], numVuelo[i], fecha[i]));
+            reservationsViewModels.add(new ReservationsViewModel(destinos[i], origenes[i], horaSalida[i], horaLlegada[i], numVuelo[i], fecha[i], vueloId));
         }
 
         //adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        //Log.d("ReservationsFragment", "Item clicked at position: " + position);
+
+        Intent intent = new Intent(requireContext(), BoardingPass.class);
+        intent.putExtra("destiny", reservationsViewModels.get(position).getDestiny());
+        intent.putExtra("origin", reservationsViewModels.get(position).getOrigin());
+        intent.putExtra("date", reservationsViewModels.get(position).getDateDay());
+        intent.putExtra("arrive", reservationsViewModels.get(position).getArrivalTime());
+        intent.putExtra("departure", reservationsViewModels.get(position).getDepartureTime());
+        intent.putExtra("number", reservationsViewModels.get(position).getFlightNumber());
+
+        //Log.d("ReservationsFragment", "Starting BoardingPass activity");
+        startActivity(intent);
     }
 
     /*@Override

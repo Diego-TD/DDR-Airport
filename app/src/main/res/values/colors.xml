@@ -10,4 +10,5 @@
     <color name="principal">#1C2D35</color>
     <color name="secundario">#DDF4F3</color>
     <color name="terciario">#FAFEFB</color>
+    <color name="grey">#f7f7f7</color>
 </resources>

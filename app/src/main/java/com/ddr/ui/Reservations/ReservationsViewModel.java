@@ -1,5 +1,7 @@
 package com.ddr.ui.Reservations;
 
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -16,6 +18,16 @@ public class ReservationsViewModel extends ViewModel {
     private String arrivalTime;
     private String flightNumber;
     private String dateDay;
+    private int vuelo;
+
+    public int getVuelo() {
+        return vuelo;
+    }
+
+    public void setVuelo(int vuelo) {
+        this.vuelo = vuelo;
+    }
+
     ArrayList<ReservationsViewModel> reservationsViewModels = new ArrayList<>();
 
     public String getDestiny() {
@@ -74,13 +86,14 @@ public class ReservationsViewModel extends ViewModel {
         this.dateDay = dateDay;
     }
 
-    public ReservationsViewModel(String destiny, String origin, String departureTime, String arrivalTime, String flightNumber, String dateDay) {
+    public ReservationsViewModel(String destiny, String origin, String departureTime, String arrivalTime, String flightNumber, String dateDay, int vuelo) {
         this.destiny = destiny;
         this.origin = origin;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.flightNumber = flightNumber;
         this.dateDay = dateDay;
+        this.vuelo = vuelo;
     }
 
 
