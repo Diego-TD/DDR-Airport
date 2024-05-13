@@ -8,14 +8,28 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/removal_2"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/removal_2"
         android:supportsRtl="true"
         android:theme="@style/Theme.DDR"
         tools:targetApi="31">
         <activity
-            android:name=".Welcome"
-            android:exported="true"
-            >
+            android:name=".ui.home.Itinerary"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.ChoseHowToTravel"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.SearchFlights"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.SearchAirports"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.SearchAirports"
+            android:exported="false" />
+        <activity
+            android:name=".MainUserMenu"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,13 +39,13 @@
         <activity
             android:name=".Login"
             android:exported="true"
-            tools:ignore="WrongManifestParent"/>
+            tools:ignore="WrongManifestParent" />
         <activity
             android:name=".SignUp"
             android:exported="true"
             tools:ignore="WrongManifestParent" />
         <activity
-            android:name=".MainUserMenu"
+            android:name=".Welcome"
             android:exported="true"
             tools:ignore="WrongManifestParent" />
         <activity

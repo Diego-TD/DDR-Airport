@@ -23,7 +23,6 @@ public class SignUp extends AppCompatActivity {
     private ImageButton imbSignUpEyePassword;
     private EditText editTextSignUpPassword;
     private EditText editTextSignUpConfirmPassword;
-    private ScrollView scrollView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,6 @@ public class SignUp extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up);
 
-//        scrollView2 = findViewById(R.id.scrollView2);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -66,41 +64,6 @@ public class SignUp extends AppCompatActivity {
                     eyePassword = false;
                 }
             });
-//            @SuppressLint("CutPasteId") final ScrollView scrollView =  findViewById(R.id.scrollView2);
-            @SuppressLint("CutPasteId") final EditText editText =  findViewById(R.id.editTextSignUpConfirmPassword);
-
-//            editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                @Override
-//                public void onFocusChange(View v, boolean hasFocus) {
-//                    if (hasFocus) {
-//                        scrollView.post(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                scrollView.smoothScrollTo(0, editText.getBottom());
-//                            }
-//                        });
-//                    }
-//                }
-//            });
-
-//            View rootView = findViewById(R.id.main);
-//
-//            // Set listener to detect keyboard visibility changes
-//            rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
-//                Rect r = new Rect();
-//                rootView.getWindowVisibleDisplayFrame(r);
-//                int screenHeight = rootView.getHeight();
-//                int keypadHeight = screenHeight - r.bottom;
-//
-//                // Check if the keyboard is shown
-//                if (keypadHeight > screenHeight * 0.15) { // Adjust this threshold as needed
-//                    // Keyboard is shown, adjust layout to accommodate it
-//                    scrollView2.setPadding(0, 0, 0, keypadHeight);
-//                } else {
-//                    // Keyboard is hidden, reset padding
-//                    scrollView2.setPadding(0, 0, 0, 0);
-//                }
-//            });
 
             return insets;
         });

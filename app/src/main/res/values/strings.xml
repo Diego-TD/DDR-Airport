@@ -4,5 +4,148 @@
     <string name="title_reservations">Reservations</string>
     <string name="title_check_in">Check-in</string>
     <string name="title_account">Account</string>
+    <string name="From">From: \n</string>
+    <string name="to">To: \n</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="retur_n">Return</string>
+    <string-array name="fromAirports">
+        <!-- México -->
+        <item>México City International Airport, MX</item>
+        <item>Cancun International Airport, MX</item>
+        <item>Guadalajara International Airport, MX</item>
+        <item>Monterrey International Airport, MX</item>
+        <item>Tijuana International Airport, MX</item>
+        <item>Mérida International Airport, MX</item>
+        <item>Puerto Vallarta International Airport, MX</item>
+        <item>Los Cabos International Airport, MX</item>
+
+        <!-- Estados Unidos -->
+        <item>New York John F. Kennedy International Airport, US</item>
+        <item>Los Angeles International Airport, US</item>
+        <item>San Francisco International Airport, US</item>
+        <item>Chicago O\'Hare International Airport, US</item>
+        <item>Las Vegas McCarran International Airport, US</item>
+        <item>Miami International Airport, US</item>
+        <item>Orlando International Airport, US</item>
+
+        <!-- Canadá -->
+        <item>Toronto Pearson International Airport, CA</item>
+        <item>Vancouver International Airport, CA</item>
+        <item>Montréal-Pierre Elliott Trudeau International Airport, CA</item>
+        <item>Calgary International Airport, CA</item>
+        <item>Ottawa Macdonald-Cartier International Airport, CA</item>
+
+        <!-- Francia -->
+        <item>Paris Charles de Gaulle Airport, FR</item>
+        <item>Paris Orly Airport, FR</item>
+        <item>Paris Beauvais-Tillé Airport, FR</item>
+        <item>Paris–Le Bourget Airport, FR</item>
+
+        <!-- Alemania -->
+        <item>Frankfurt Airport, DE</item>
+        <item>Munich Airport, DE</item>
+        <item>Berlin Brandenburg Airport, DE</item>
+        <item>Düsseldorf Airport, DE</item>
+        <item>Hamburg Airport, DE</item>
+
+        <!-- Argentina -->
+        <item>Buenos Aires Ministro Pistarini International Airport, AR</item>
+        <item>Buenos Aires Aeroparque Jorge Newbery, AR</item>
+        <item>Córdoba Ingeniero Aeronáutico Ambrosio L.V. Taravella International Airport, AR</item>
+        <item>Rosario Islas Malvinas International Airport, AR</item>
+        <item>Mendoza Governor Francisco Gabrielli International Airport, AR</item>
+
+        <!-- Brasil -->
+        <item>São Paulo/Guarulhos–Governador André Franco Montoro International Airport, BR</item>
+        <item>Rio de Janeiro/Galeão – Antônio Carlos Jobim International Airport, BR</item>
+        <item>Brasília International Airport, BR</item>
+        <item>Salvador-Deputado Luís Eduardo Magalhães International Airport, BR</item>
+        <item>Recife/Guararapes–Gilberto Freyre International Airport, BR</item>
+
+        <!-- Colombia -->
+        <item>Bogotá El Dorado International Airport, CO</item>
+        <item>Medellín José María Córdova International Airport, CO</item>
+        <item>Cali Alfonso Bonilla Aragón International Airport, CO</item>
+        <item>Barranquilla Ernesto Cortissoz International Airport, CO</item>
+        <item>Cartagena Rafael Núñez International Airport, CO</item>
+
+        <!-- Reino Unido -->
+        <item>London Heathrow Airport, UK</item>
+        <item>London Gatwick Airport, UK</item>
+        <item>Manchester Airport, UK</item>
+        <item>London Stansted Airport, UK</item>
+        <item>Birmingham Airport, UK</item>
+    </string-array>
+    <string name="departing_flights_text">Departing from: %1$s To: %2$s</string>
+    `
+    <string-array name="fromAirports1">
+        <!-- México -->
+        <item>México City, México</item>
+        <item>Cancun, México</item>
+        <item>Guadalajara, México</item>
+        <item>Monterrey, México</item>
+        <item>Tijuana, México</item>
+        <item>Mérida, México</item>
+        <item>Puerto Vallarta, México</item>
+        <item>Los Cabos, México</item>
+
+        <!-- Estados Unidos -->
+        <item>New York, Estados Unidos</item>
+        <item>Los Angeles, Estados Unidos</item>
+        <item>San Francisco, Estados Unidos</item>
+        <item>Chicago, Estados Unidos</item>
+        <item>Las Vegas, Estados Unidos</item>
+        <item>Miami, Estados Unidos</item>
+        <item>Orlando, Estados Unidos</item>
+
+        <!-- Canadá -->
+        <item>Toronto, Canadá</item>
+        <item>Vancouver, Canadá</item>
+        <item>Montréal, Canadá</item>
+        <item>Calgary, Canadá</item>
+        <item>Ottawa, Canadá</item>
+
+        <!-- Francia -->
+        <item>Paris, Francia</item>
+        <item>Paris, Francia</item>
+        <item>Paris, Francia</item>
+        <item>Paris, Francia</item>
+
+        <!-- Alemania -->
+        <item>Frankfurt, Alemania</item>
+        <item>Munich, Alemania</item>
+        <item>Berlin, Alemania</item>
+        <item>Düsseldorf, Alemania</item>
+        <item>Hamburg, Alemania</item>
+
+        <!-- Argentina -->
+        <item>Buenos Aires, Argentina</item>
+        <item>Buenos Aires, Argentina</item>
+        <item>Córdoba, Argentina</item>
+        <item>Rosario, Argentina</item>
+        <item>Mendoza, Argentina</item>
+
+        <!-- Brasil -->
+        <item>São Paulo, Brasil</item>
+        <item>Rio de Janeiro, Brasil</item>
+        <item>Brasília, Brasil</item>
+        <item>Salvador, Brasil</item>
+        <item>Recife, Brasil</item>
+
+        <!-- Colombia -->
+        <item>Bogotá, Colombia</item>
+        <item>Medellín, Colombia</item>
+        <item>Cali, Colombia</item>
+        <item>Barranquilla, Colombia</item>
+        <item>Cartagena, Colombia</item>
+
+        <!-- Reino Unido -->
+        <item>London, Reino Unido</item>
+        <item>London, Reino Unido</item>
+        <item>Manchester, Reino Unido</item>
+        <item>London, Reino Unido</item>
+        <item>Birmingham, Reino Unido</item>
+    </string-array>
 
 </resources>
