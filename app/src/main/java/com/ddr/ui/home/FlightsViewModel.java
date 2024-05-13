@@ -10,7 +10,7 @@ public class FlightsViewModel extends ViewModel {
 
     public FlightsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is flights fragment");
+        mText.setValue("Book your flight Now");
     }
 
     public LiveData<String> getText() {
