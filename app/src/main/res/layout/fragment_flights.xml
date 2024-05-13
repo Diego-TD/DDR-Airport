@@ -41,13 +41,18 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/principal"
+            android:backgroundTintMode="add"
+            android:foregroundTint="@color/principal"
             android:text="One Way"
+            android:textStyle="bold"
             tools:layout_editor_absoluteX="-2dp"
             tools:layout_editor_absoluteY="112dp" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="Round Trip" />
 
 
@@ -71,6 +76,7 @@
         android:id="@+id/roundTripButton"
         android:layout_width="205dp"
         android:layout_height="37dp"
+        android:background="@color/principal"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

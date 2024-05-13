@@ -5,16 +5,21 @@
     android:id="@+id/searchFlights"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.">
+    android:background="#000000"
+    tools:context=".ui.home.SearchAirports">
 
     <SearchView
-        android:id="@+id/searchView2"
-        android:layout_width="409dp"
-        android:layout_height="48dp"
+        android:id="@+id/searchViewFlight"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search here"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
@@ -23,12 +28,13 @@
         android:id="@+id/searchRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView2"
+        app:layout_constraintTop_toBottomOf="@+id/searchViewFlight"
         app:layout_constraintVertical_bias="1.0">
 
     </androidx.recyclerview.widget.RecyclerView>

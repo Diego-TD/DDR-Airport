@@ -16,27 +16,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <SearchView
-            android:id="@+id/toSearchView"
-            android:layout_width="216dp"
-            android:layout_height="42dp"
-            android:queryHint="Where to?"
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/principal"
+            android:text="Search"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.641"
+            app:layout_constraintHorizontal_bias="0.842"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.373" />
+            app:layout_constraintVertical_bias="0.714" />
 
         <TextView
             android:id="@+id/fromText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:text="@string/From"
-            android:textColor="@color/text_color_light"
+            android:textColor="@color/white"
             android:textSize="25dp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.11"
+            app:layout_constraintHorizontal_bias="0.079"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,39 +49,63 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/to"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="25dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.143"
+            app:layout_constraintHorizontal_bias="0.073"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.372" />
+            app:layout_constraintVertical_bias="0.362" />
 
         <TextView
             android:id="@+id/departure"
             android:layout_width="181dp"
             android:layout_height="42dp"
             android:hint="Departure"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textColorHint="#FFFFFF"
             android:textSize="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.273"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.499" />
-
-        <TextView
-            android:id="@+id/fromTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Where from?"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.117"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.188" />
+            app:layout_constraintVertical_bias="0.716" />
+
+        <TextView
+            android:id="@+id/fromTextView"
+            android:layout_width="281dp"
+            android:layout_height="111dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="50dp"
+            android:text="Where from?"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.888"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.167" />
+
+        <TextView
+            android:id="@+id/toTextView"
+            android:layout_width="278dp"
+            android:layout_height="97dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="50dp"
+            android:text="Where to?"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.888"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.469" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

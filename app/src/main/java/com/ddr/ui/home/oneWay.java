@@ -1,31 +1,19 @@
 package com.ddr.ui.home;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.ddr.Login;
-import com.ddr.MainUserMenu;
 import com.ddr.R;
-import com.ddr.databinding.FragmentOneWayBinding;
 
 import java.util.Calendar;
 
@@ -38,6 +26,7 @@ public class oneWay extends Fragment {
     private String mParam2;
     private TextView departure;
     private TextView fromTextView;
+    private TextView toTextView;
 
     public oneWay() {
         // Required empty public constructor
@@ -68,14 +57,28 @@ public class oneWay extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_one_way, container, false);
         departure = rootView.findViewById(R.id.departure);
         fromTextView = rootView.findViewById(R.id.fromTextView);
+        toTextView = rootView.findViewById(R.id.toTextView);
+
+        if (getArguments() != null) {
+            String cityName = getArguments().getString("cityName");
+            fromTextView.setText(cityName);
+        }
         fromTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(requireContext(), SearchFlights.class);
-                startActivity(in);
+                Intent in = new Intent(requireContext(), SearchAirports.class);
+
+
+                startActivityForResult(in,1);
             }
         });
-
+    toTextView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent in = new Intent(getContext(), SearchAirports.class);
+            startActivityForResult(in,2);
+        }
+    });
         departure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,31 +109,28 @@ public class oneWay extends Fragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-
-
-//    private void openSearchPage(String query) {
-//        // Crea una nueva instancia del fragmento SearchFragment
-//        SearchFragment fragment = new SearchFragment();
-//
-//        // Crear un Bundle para pasar datos al nuevo fragmento si es necesario
-//        Bundle args = new Bundle();
-//        args.putString("query", query);
-//        fragment.setArguments(args);
-//
-//        // Obtener el FragmentManager y comenzar una transacción
-//        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//
-//        // Reemplazar el contenido actual del contenedor con el nuevo fragmento
-//        transaction.replace(R.id.fragment_container, fragment);
-//
-//        // Agregar la transacción a la pila de retroceso
-//        transaction.addToBackStack(null);
-//
-//        // Confirmar la transacción
-//        transaction.commit();
-//    }
-
+        // Manejar el resultado de la actividad secundaria aquí
+        if (requestCode == 1 ) {
+            if (resultCode == Activity.RESULT_OK) {
+                // El resultado fue exitoso, obtener los datos y actualizar la interfaz de usuario
+                if (data != null) {
+                    String cityName = data.getStringExtra("cityName");
+                    // Actualizar la vista con el resultado recibido
+                    fromTextView.setText(cityName);
+                }
+            }
+        }else {
+            if (resultCode == Activity.RESULT_OK){
+                if (data != null){
+                    String cityName = data.getStringExtra("cityName");
+                    toTextView.setText(cityName);
+                }
+            }
+        }
+    }
 
 }

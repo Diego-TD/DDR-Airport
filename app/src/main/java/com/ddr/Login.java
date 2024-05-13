@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
         editTextLogInPassword = findViewById(R.id.editTextLogInPassword);
         imageButton = findViewById(R.id.imageButton);
         textView3 = findViewById(R.id.textView3);
-        editTextLogInPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        editTextLogInPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         eye = false;
 
@@ -98,31 +98,27 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
             String emailLogin = editTextLogInEmail.getText().toString();
             String password = editTextLogInPassword.getText().toString();
             if (!emailLogin.contains("@") || !emailLogin.contains(".") || emailLogin.contains(" ")){
                 new AlertDialog.Builder(Login.this)
-                        .setTitle("Email Invalido")
-                        .setMessage("Por favor, ingresa un email valido")
+                        .setTitle("Email Inválido")
+                        .setMessage("Por favor, ingresa un email válido")
                         .setPositiveButton("OK", null)
                         .show();
 
-        } else {
-
-            if (!password.isEmpty()) {
-                Intent in = new Intent(Login.this, MainUserMenu.class);
-                startActivity(in);
             }
             else {
-
-
+                if (!password.isEmpty()) {
+                    Intent in = new Intent(Login.this, MainUserMenu.class);
+                    startActivity(in);
+                }
+            else {
                 new AlertDialog.Builder(Login.this)
                         .setTitle("Campos Vacíos")
                         .setMessage("Por favor, completa todos los campos")
                         .setPositiveButton("OK", null)
                         .show();}}
-
         }});
 
         TextView signUpButton = findViewById(R.id.signUpButton);
