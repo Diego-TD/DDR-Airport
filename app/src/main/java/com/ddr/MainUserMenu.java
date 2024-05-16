@@ -27,7 +27,7 @@ public class MainUserMenu extends AppCompatActivity {
         String isRoundTrip = flightsEditor.getStringExtra("isRoundTrip");
         String isOneWay = flightsEditor.getStringExtra("isOneWay");
         if (isRoundTrip.equals("true")){
-            
+
         } else if (isOneWay.equals("true")){
 
         }
