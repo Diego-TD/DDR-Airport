@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 import kotlin.random.Random;
 
-public class SearchFlights extends AppCompatActivity implements RecycleViewInterface {
+public class ReturnSearchFlights extends AppCompatActivity implements RecycleViewInterface {
 
     private SearchFlightsRecycleViewAdapter searchFlightsRecycleViewAdapter;
     private RecyclerView recycleView;
@@ -105,39 +105,17 @@ public class SearchFlights extends AppCompatActivity implements RecycleViewInter
     @Override
     public void OnClickItem(String text) {
         Intent currentIntent = getIntent();
-
-        if (currentIntent.getBooleanExtra("isRoundTrip", false)) {
-            // Lógica para vuelo redondo
-            Intent wow = new Intent(this, ReturnSearchFlights.class);
-            String temp = cityFromText;
-            cityFromText = cityToText;
-            cityToText = temp;
-            wow.putExtra("fromTxt", cityToText);
-            wow.putExtra("toTxt", cityFromText);
-            wow.putExtra("isRoundTrip", false);
-            startActivity(wow);
-            return;  // Ensure method exits after starting the new activity
-        }
-
-        if (currentIntent.getBooleanExtra("isOneWay", false)) {
-            // Lógica para vuelo de ida
-            AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                    .setTitle("Are you sure?")
-                    .setMessage("mi amigo")
-                    .setPositiveButton("ok", (dialog, which) -> {
-                        Intent returnIntent = new Intent();
-                        returnIntent.putExtra("ticketCreated", true);
-                        setResult(RESULT_OK, returnIntent);
-                        finish();
-                    });
-            builder.show();
-            return;  // Ensure method exits after showing the dialog
-        }
-
-        // Default action if none of the above conditions are met
-        Intent newIntent = new Intent(this, MainUserMenu.class);
+          String cityFromTextPrev = currentIntent.getStringExtra("fromTxt");
+          String cityToTextPrev = currentIntent.getStringExtra("toTxt");
+          Intent newIntent = new Intent(this, MainUserMenu.class);
+          newIntent.putExtra("fromTxt", cityFromTextPrev);
+          newIntent.putExtra("toTxt", cityToTextPrev);
+          String isRoundTrip = "true";
+          newIntent.putExtra("isRoundTrip",isRoundTrip );
+          String isOneWay = "false";
+          newIntent.putExtra("isOneWay",isOneWay );
         startActivity(newIntent);
-        finish();
+
     }
 
 //@Override

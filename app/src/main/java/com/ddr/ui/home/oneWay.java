@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class oneWay extends Fragment {
     private TextView departure;
     private TextView fromTextView;
     private TextView toTextView;
+    private Button searchButton;
 
     public oneWay() {
         // Required empty public constructor
@@ -58,6 +60,7 @@ public class oneWay extends Fragment {
         departure = rootView.findViewById(R.id.departure);
         fromTextView = rootView.findViewById(R.id.fromTextView);
         toTextView = rootView.findViewById(R.id.toTextView);
+        searchButton = rootView.findViewById(R.id.search_button);
 
         if (getArguments() != null) {
             String cityName = getArguments().getString("cityName");
@@ -83,6 +86,14 @@ public class oneWay extends Fragment {
             @Override
             public void onClick(View v) {
                 showCalendarPopup();
+            }
+        });
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getContext(), SearchFlights.class);
+                in.putExtra("isOneWay", true);
+                startActivity(in);
             }
         });
 

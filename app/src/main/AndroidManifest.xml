@@ -13,6 +13,9 @@
         android:theme="@style/Theme.DDR"
         tools:targetApi="31">
         <activity
+            android:name=".ui.home.ReturnSearchFlights"
+            android:exported="false" />
+        <activity
             android:name=".ui.home.Itinerary"
             android:exported="false" />
         <activity
@@ -20,9 +23,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.home.SearchFlights"
-            android:exported="false" />
-        <activity
-            android:name=".ui.home.SearchAirports"
             android:exported="false" />
         <activity
             android:name=".ui.home.SearchAirports"

@@ -1,5 +1,6 @@
 package com.ddr.ui.Reservations;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,10 +25,16 @@ import java.util.ArrayList;
 public class ReservationsFragment extends Fragment implements RecyclerViewInterface{
 
     private FragmentReservationsBinding binding;
-    private ArrayList<ReservationsViewModel> reservationsViewModels = new ArrayList<>();
+    protected ArrayList<ReservationsViewModel> reservationsViewModels = new ArrayList<>();
     private RecyclerViewAdapter adapter;
     private int vueloId = R.drawable.vuelo;
 
+    public ArrayList<ReservationsViewModel> getReservationsViewModels() {
+        return reservationsViewModels;
+    }
+public ReservationsFragment(){
+
+}
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,6 +100,7 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
         //Log.d("ReservationsFragment", "Starting BoardingPass activity");
         startActivity(intent);
     }
+
 
     /*@Override
     public void onDestroyView() {

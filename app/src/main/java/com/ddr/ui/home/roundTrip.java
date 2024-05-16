@@ -133,7 +133,9 @@ private Button searchButton;
                             .show();
                     return;
                 }
+                boolean isRoundTrip = true;
                 Intent in = new Intent(requireContext(),SearchFlights.class);
+                in.putExtra("isRoundTrip",isRoundTrip);
                 in.putExtra("fromTxt",fromTextViewRoundTrip.getText().toString());
                 in.putExtra("toTxt",toTextViewRoundTrip.getText().toString());
                 startActivity(in);
@@ -198,6 +200,7 @@ private Button searchButton;
         }, year, month, dayOfMonth);
 
         // Mostramos el DatePickerDialog para la salida
+        departureDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         departureDatePickerDialog.show();
     }
 
