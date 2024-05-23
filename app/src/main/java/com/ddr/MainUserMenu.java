@@ -1,5 +1,6 @@
 package com.ddr;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,6 +23,15 @@ public class MainUserMenu extends AppCompatActivity {
 
         binding = ActivityMainMenuBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Intent flightsEditor = getIntent();
+        String isRoundTrip = flightsEditor.getStringExtra("isRoundTrip");
+        String isOneWay = flightsEditor.getStringExtra("isOneWay");
+        if (isRoundTrip.equals("true")){
+
+        } else if (isOneWay.equals("true")){
+
+        }
+
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.1"
+agp = "8.4.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
@@ -12,6 +12,8 @@ navigationFragment = "2.7.7"
 navigationUi = "2.7.7"
 activity = "1.8.0"
 retrofit = "2.11.0"
+=======
+carUiLib = "2.6.0"
 
 [libraries]
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
@@ -27,6 +29,8 @@ navigation-fragment = { group = "androidx.navigation", name = "navigation-fragme
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+=======
+car-ui-lib = { group = "com.android.car.ui", name = "car-ui-lib", version.ref = "carUiLib" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
