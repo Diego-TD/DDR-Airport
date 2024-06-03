@@ -133,7 +133,7 @@ public class SearchFlights extends AppCompatActivity implements RecycleViewInter
                         returnIntent.putExtra("ticketCreated", true);
             ReservationsFragment reservationsFragment = new ReservationsFragment();
                 ArrayList<ReservationsViewModel> reservationsViewModels = new ArrayList<>();
-                reservationsViewModels.add(new ReservationsViewModel(cityToText, cityFromText,"12:30", "13:30","1","",23));
+                reservationsViewModels.add(new ReservationsViewModel(cityToText, cityFromText,"12:30", "13:30","1","",23,"3"));
                 reservationsFragment.setReservationsViewModels(reservationsViewModels);
                         setResult(RESULT_OK, returnIntent);
                         finish();

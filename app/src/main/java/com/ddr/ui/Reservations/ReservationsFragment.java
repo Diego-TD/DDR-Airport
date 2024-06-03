@@ -56,7 +56,7 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         adapter = new RecyclerViewAdapter(getContext(), reservationsViewModels, this);
-        reservationsViewModels.add(new ReservationsViewModel("No Hay Vuelos ", "No Hay Vuelos", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", vueloId));
+        reservationsViewModels.add(new ReservationsViewModel("No Hay Vuelos ", "No Hay Vuelos", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", vueloId,"3"));
 //        setUpReservationsModel();
         recyclerView.setAdapter(adapter);
 
