@@ -53,7 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView destino, origen, horaSalida, horaLlegada, numeroVuelo, fechaSalida;
+        TextView destino, origen, horaSalida, horaLlegada, numeroVuelo, fechaSalida, maleta;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
@@ -64,6 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             horaSalida = itemView.findViewById(R.id.departureTime);
             numeroVuelo = itemView.findViewById(R.id.numberFlight);
             fechaSalida = itemView.findViewById(R.id.dateDay);
+            maleta = itemView.findViewById(R.id.typeLuggage);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
