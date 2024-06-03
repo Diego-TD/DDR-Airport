@@ -54,10 +54,9 @@ public class ReturnSearchFlights extends AppCompatActivity implements RecycleVie
             recycleView.setAdapter(searchFlightsRecycleViewAdapter);
             Intent in = getIntent();
             if (in != null) {
-                String cityFromTextPrev = in.getStringExtra("fromTxt");
-                String cityToTextPrev = in.getStringExtra("toTxt");
-                cityFromText = cityFromTextPrev;
-                cityToText = cityToTextPrev;
+               cityFromText = in.getStringExtra("toTxt");
+               cityToText = in.getStringExtra("fromTxt");
+
 
             }
             String departingFlightsText = getString(R.string.departing_flights_text, cityFromText, cityToText);
@@ -105,11 +104,15 @@ public class ReturnSearchFlights extends AppCompatActivity implements RecycleVie
     @Override
     public void OnClickItem(String text) {
         Intent currentIntent = getIntent();
-          String cityFromTextPrev = currentIntent.getStringExtra("fromTxt");
-          String cityToTextPrev = currentIntent.getStringExtra("toTxt");
+          String cityFromTextPrev = currentIntent.getStringExtra("fromTxtPrev");
+          String cityToTextPrev = currentIntent.getStringExtra("toTxtPrev");
+          String cityToText = currentIntent.getStringExtra("toTxt");
+          String cityFromText = currentIntent.getStringExtra("fromTxt");
           Intent newIntent = new Intent(this, MainUserMenu.class);
-          newIntent.putExtra("fromTxt", cityFromTextPrev);
-          newIntent.putExtra("toTxt", cityToTextPrev);
+          newIntent.putExtra("fromTxtPrev", cityFromTextPrev);
+          newIntent.putExtra("toTxtPrev", cityToTextPrev);
+          newIntent.putExtra("fromTxt", cityFromText);
+          newIntent.putExtra("toTxt", cityToText);
           String isRoundTrip = "true";
           newIntent.putExtra("isRoundTrip",isRoundTrip );
           String isOneWay = "false";

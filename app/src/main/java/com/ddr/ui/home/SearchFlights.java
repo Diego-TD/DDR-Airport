@@ -106,37 +106,43 @@ public class SearchFlights extends AppCompatActivity implements RecycleViewInter
     public void OnClickItem(String text) {
         Intent currentIntent = getIntent();
 
-        if (currentIntent.getBooleanExtra("isRoundTrip", false)) {
-            // Lógica para vuelo redondo
-            Intent wow = new Intent(this, ReturnSearchFlights.class);
-            String temp = cityFromText;
-            cityFromText = cityToText;
-            cityToText = temp;
-            wow.putExtra("fromTxt", cityToText);
-            wow.putExtra("toTxt", cityFromText);
-            wow.putExtra("isRoundTrip", false);
-            startActivity(wow);
-            return;  // Ensure method exits after starting the new activity
-        }
+//        if (currentIntent.) {
+//            // Lógica para vuelo redondo
+//            Intent wow = new Intent(this, ReturnSearchFlights.class);
+//            String cityFromTextPrev = currentIntent.getStringExtra("fromTxt");
+//            String cityToTextPrev = currentIntent.getStringExtra("toTxt");
+//            String temp = cityFromText;
+//            cityFromText = cityToText;
+//            cityToText = temp;
+//            wow.putExtra("fromTxtPrev", cityFromTextPrev);
+//            wow.putExtra("toTxtPrev", cityToTextPrev);
+//            wow.putExtra("fromTxt", cityFromText);
+//            wow.putExtra("toTxt", cityToText);
+//            wow.putExtra("isRoundTrip", false);
+//            startActivity(wow);
+//            return;  // Ensure method exits after starting the new activity
+//        }
 
-        if (currentIntent.getBooleanExtra("isOneWay", false)) {
+        if (currentIntent.getBooleanExtra("isOneWay", true)) {
             // Lógica para vuelo de ida
-            AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                    .setTitle("Are you sure?")
-                    .setMessage("mi amigo")
-                    .setPositiveButton("ok", (dialog, which) -> {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+//                    .setTitle("Are you sure?")
+//                    .setMessage("mi amigo")
+//                    .setPositiveButton("ok", (dialog, which) -> {
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("ticketCreated", true);
+            ReservationsFragment reservationsFragment = new ReservationsFragment();
+                ArrayList<ReservationsViewModel> reservationsViewModels = new ArrayList<>();
+                reservationsViewModels.add(new ReservationsViewModel(cityToText, cityFromText,"12:30", "13:30","1","",23));
+                reservationsFragment.setReservationsViewModels(reservationsViewModels);
                         setResult(RESULT_OK, returnIntent);
                         finish();
-                    });
-            builder.show();
+//                    });
+//            builder.show();
             return;  // Ensure method exits after showing the dialog
         }
 
         // Default action if none of the above conditions are met
-        Intent newIntent = new Intent(this, MainUserMenu.class);
-        startActivity(newIntent);
         finish();
     }
 
