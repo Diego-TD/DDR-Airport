@@ -1,5 +1,6 @@
 package com.ddr.ui.Reservations;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,10 +30,20 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
     private RecyclerViewAdapter adapter;
     private int vueloId = R.drawable.vuelo;
 
+    public RecyclerViewAdapter getAdapter() {
+        return adapter;
+    }
+
+
     public ArrayList<ReservationsViewModel> getReservationsViewModels() {
         return reservationsViewModels;
     }
-public ReservationsFragment(){
+
+    public void setReservationsViewModels(ArrayList<ReservationsViewModel> reservationsViewModels) {
+        this.reservationsViewModels = reservationsViewModels;
+    }
+
+    public ReservationsFragment(){
 
 }
     @Nullable
@@ -43,8 +54,10 @@ public ReservationsFragment(){
 
         RecyclerView recyclerView = root.findViewById(R.id.myRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         adapter = new RecyclerViewAdapter(getContext(), reservationsViewModels, this);
-        setUpReservationsModel();
+        reservationsViewModels.add(new ReservationsViewModel("No Hay Vuelos ", "No Hay Vuelos", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", vueloId));
+//        setUpReservationsModel();
         recyclerView.setAdapter(adapter);
 
 
@@ -70,20 +83,28 @@ public ReservationsFragment(){
         return null;
     }*/
 
-    public void setUpReservationsModel(){
-        String[] origenes = {"Culiacan", "Mazatlan", "Mochis", "Guasave", "Ensenada", "Tijuana", "Mexicali", "CDMX"};
-        String[] destinos = {"Paris", "Berlin", "Amsterdam", "Dubai", "Dortmund", "Munich", "Praga", "Dublin"};
-        String[] horaSalida = {"10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM", "12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM"};
-        String[] horaLlegada = {"12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM", "10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM"};
-        String[] fecha = {"Sab, 08 Jun 2024", "Mie, 15 Sep 2024", "Dom, 01 Agosto 2024", "Lun, 20 Jul 2024", "Mar, 11 May 2024", "Jue, 30 Nov 2024", "Sab, 25 Dic 2024", "Vie, 13 Oct 2024"};
-        String[] numVuelo = {"78adn43", "65nj24d", "ka72n43", "mlf09f7g", "3m2ns6s", "cbgs342", "cnjddg7", "xcs532"};
+    @SuppressLint("NotifyDataSetChanged")
+    public void setUpReservationsModel(String origenes, String destinos, String horaSalida, String horaLlegada, String numVuelo, String fecha){
+        reservationsViewModels.add(new ReservationsViewModel(destinos, origenes, horaSalida, horaLlegada, numVuelo, fecha, vueloId));
+        adapter.notifyDataSetChanged();
 
-        for (int i = 0; i < origenes.length; i++) {
-            reservationsViewModels.add(new ReservationsViewModel(destinos[i], origenes[i], horaSalida[i], horaLlegada[i], numVuelo[i], fecha[i], vueloId));
-        }
 
-        //adapter.notifyDataSetChanged();
     }
+//
+//    public void setUpReservationsModel(){
+//        String[] origenes = {"Culiacan", "Mazatlan", "Mochis", "Guasave", "Ensenada", "Tijuana", "Mexicali", "CDMX"};
+//        String[] destinos = {"Paris", "Berlin", "Amsterdam", "Dubai", "Dortmund", "Munich", "Praga", "Dublin"};
+//        String[] horaSalida = {"10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM", "12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM"};
+//        String[] horaLlegada = {"12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM", "10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM"};
+//        String[] fecha = {"Sab, 08 Jun 2024", "Mie, 15 Sep 2024", "Dom, 01 Agosto 2024", "Lun, 20 Jul 2024", "Mar, 11 May 2024", "Jue, 30 Nov 2024", "Sab, 25 Dic 2024", "Vie, 13 Oct 2024"};
+//        String[] numVuelo = {"78adn43", "65nj24d", "ka72n43", "mlf09f7g", "3m2ns6s", "cbgs342", "cnjddg7", "xcs532"};
+//
+//        for (int i = 0; i < 2; i++) {
+//            reservationsViewModels.add(new ReservationsViewModel(destinos[i], origenes[i], horaSalida[i], horaLlegada[i], numVuelo[i], fecha[i], vueloId));
+//        }
+//
+//        //adapter.notifyDataSetChanged();
+//    }
 
     @Override
     public void onItemClick(int position) {
@@ -100,6 +121,8 @@ public ReservationsFragment(){
         //Log.d("ReservationsFragment", "Starting BoardingPass activity");
         startActivity(intent);
     }
+
+
 
 
     /*@Override

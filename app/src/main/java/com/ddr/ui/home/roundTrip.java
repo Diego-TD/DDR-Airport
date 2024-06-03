@@ -41,6 +41,8 @@ public class roundTrip extends Fragment {
     private String mParam1;
     private String mParam2;
 private Button searchButton;
+    boolean isRoundTrip = false;
+
     private TextView fromTextViewRoundTrip,toTextViewRoundTrip,departure,retur_n;
 
     public roundTrip() {
@@ -111,6 +113,7 @@ private Button searchButton;
             }
         });
         searchButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 if (fromTextViewRoundTrip.getText().toString().isEmpty()
@@ -133,12 +136,11 @@ private Button searchButton;
                             .show();
                     return;
                 }
-                boolean isRoundTrip = true;
                 Intent in = new Intent(requireContext(),SearchFlights.class);
                 in.putExtra("isRoundTrip",isRoundTrip);
                 in.putExtra("fromTxt",fromTextViewRoundTrip.getText().toString());
                 in.putExtra("toTxt",toTextViewRoundTrip.getText().toString());
-                startActivity(in);
+                startActivityForResult(in,2);
         }});
         departure.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +155,7 @@ private Button searchButton;
                 if(!departure.getText().toString().isEmpty()){
                 // Show calendar popup for return with departure date + 2 days
 //                showCalendarPopup(retur_n, retur_n, -2);
+                    isRoundTrip = true;
                 showReturnCalendarPopup(departure,retur_n);}
 
             else{
