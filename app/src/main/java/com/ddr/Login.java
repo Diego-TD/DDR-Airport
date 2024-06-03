@@ -90,16 +90,10 @@ public class Login extends AppCompatActivity {
                 else if (!editTextLogInPassword.getText().toString().equals("Password") && eye){
                     editTextLogInPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     eye = false;
+                    }
                 }
-            }
         });
 
-    //        textView3.setOnClickListener(new View.OnClickListener() {
-    //            @Override
-    //            public void onClick(View v) {
-    //                System.out.println("Boton sign up");
-    //            }
-    //        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -26,13 +26,11 @@ public class MainUserMenu extends AppCompatActivity {
         Intent flightsEditor = getIntent();
         String isRoundTrip = flightsEditor.getStringExtra("isRoundTrip");
         String isOneWay = flightsEditor.getStringExtra("isOneWay");
-        /*if (isRoundTrip.equals("true")){
+        if (isRoundTrip.equals("true")){
 
         } else if (isOneWay.equals("true")){
 
         }
-
-         */
 
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
