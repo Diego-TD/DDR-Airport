@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
+        android:layout_marginTop="13dp"
         android:id="@+id/recyclerViewRow"
         android:layout_width="340dp"
         android:layout_height="655dp"
@@ -133,17 +134,31 @@
                 app:srcCompat="@drawable/ddrairport_removebg_preview" />
 
             <Button
-                android:id="@+id/personaliza"
+                android:id="@+id/personalizeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="33dp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="@color/verdeProyect"
                 android:text="Personalize"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/typeLuggage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="13dp"
+                android:hint="Zero"
+
+                android:textColor="@color/black"
+                android:textColorHint="#000000"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dateDayPass" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

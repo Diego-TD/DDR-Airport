@@ -19,6 +19,15 @@ public class ReservationsViewModel extends ViewModel {
     private String flightNumber;
     private String dateDay;
     private int vuelo;
+    private String lugagge;
+
+    public String getLugagge() {
+        return lugagge;
+    }
+
+    public void setLuggage(String lugagge) {
+        this.lugagge = lugagge;
+    }
 
     public int getVuelo() {
         return vuelo;
@@ -86,7 +95,7 @@ public class ReservationsViewModel extends ViewModel {
         this.dateDay = dateDay;
     }
 
-    public ReservationsViewModel(String destiny, String origin, String departureTime, String arrivalTime, String flightNumber, String dateDay, int vuelo) {
+    public ReservationsViewModel(String destiny, String origin, String departureTime, String arrivalTime, String flightNumber, String dateDay, int vuelo, String luggage) {
         this.destiny = destiny;
         this.origin = origin;
         this.departureTime = departureTime;
@@ -94,6 +103,7 @@ public class ReservationsViewModel extends ViewModel {
         this.flightNumber = flightNumber;
         this.dateDay = dateDay;
         this.vuelo = vuelo;
+        this.lugagge = luggage;
     }
 
 

@@ -60,7 +60,6 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
 //        setUpReservationsModel();
         recyclerView.setAdapter(adapter);
 
-
         return root;
     }
 
@@ -83,11 +82,17 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
         return null;
     }*/
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void setUpReservationsModel(String origenes, String destinos, String horaSalida, String horaLlegada, String numVuelo, String fecha){
-        reservationsViewModels.add(new ReservationsViewModel(destinos, origenes, horaSalida, horaLlegada, numVuelo, fecha, vueloId));
-        adapter.notifyDataSetChanged();
-
+    public void setUpReservationsModel(){
+        String[] origenes = {"Culiacan", "Mazatlan", "Mochis", "Guasave", "Ensenada", "Tijuana", "Mexicali", "CDMX"};
+        String[] destinos = {"Paris", "Berlin", "Amsterdam", "Dubai", "Dortmund", "Munich", "Praga", "Dublin"};
+        String[] horaSalida = {"10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM", "12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM"};
+        String[] horaLlegada = {"12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM", "10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM"};
+        String[] fecha = {"Sab, 08 Jun 2024", "Mie, 15 Sep 2024", "Dom, 01 Agosto 2024", "Lun, 20 Jul 2024", "Mar, 11 May 2024", "Jue, 30 Nov 2024", "Sab, 25 Dic 2024", "Vie, 13 Oct 2024"};
+        String[] numVuelo = {"78adn43", "65nj24d", "ka72n43", "mlf09f7g", "3m2ns6s", "cbgs342", "cnjddg7", "xcs532"};
+        String[] maleta = {"Zero", "Zero", "Zero", "Zero", "Zero", "Zero", "Zero", "Zero"};
+        for (int i = 0; i < origenes.length; i++) {
+            reservationsViewModels.add(new ReservationsViewModel(destinos[i], origenes[i], horaSalida[i], horaLlegada[i], numVuelo[i], fecha[i], vueloId, maleta[i]));
+        }
 
     }
 //
@@ -111,17 +116,33 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
         //Log.d("ReservationsFragment", "Item clicked at position: " + position);
 
         Intent intent = new Intent(requireContext(), BoardingPass.class);
+        //startActivityForResult(intent, position);
         intent.putExtra("destiny", reservationsViewModels.get(position).getDestiny());
         intent.putExtra("origin", reservationsViewModels.get(position).getOrigin());
         intent.putExtra("date", reservationsViewModels.get(position).getDateDay());
         intent.putExtra("arrive", reservationsViewModels.get(position).getArrivalTime());
         intent.putExtra("departure", reservationsViewModels.get(position).getDepartureTime());
         intent.putExtra("number", reservationsViewModels.get(position).getFlightNumber());
+        intent.putExtra("maleta", reservationsViewModels.get(position).getLugagge());
 
         //Log.d("ReservationsFragment", "Starting BoardingPass activity");
         startActivity(intent);
     }
 
+
+
+
+    /*@Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == AppCompatActivity.RESULT_OK && data != null) {
+            String newLuggage = data.getStringExtra("newLuggage");
+            if (newLuggage != null) {
+                reservationsViewModels.get(requestCode).setLuggage(newLuggage);
+                adapter.notifyItemChanged(requestCode);
+            }
+        }
+    }/*
 
 
 
