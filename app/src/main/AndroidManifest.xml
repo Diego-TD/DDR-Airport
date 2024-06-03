@@ -31,7 +31,7 @@
             android:name=".ui.home.SearchAirports"
             android:exported="false" />
         <activity
-            android:name=".MainUserMenu"
+            android:name=".Welcome"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +48,7 @@
             android:exported="true"
             tools:ignore="WrongManifestParent" />
         <activity
-            android:name=".Welcome"
+            android:name=".MainUserMenu"
             android:exported="true"
             tools:ignore="WrongManifestParent" />
         <activity

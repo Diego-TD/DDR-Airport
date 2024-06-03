@@ -13,9 +13,14 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.ddr.R;
+import com.ddr.ui.Reservations.ReservationsFragment;
+import com.ddr.ui.Reservations.ReservationsViewModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class oneWay extends Fragment {
@@ -29,6 +34,7 @@ public class oneWay extends Fragment {
     private TextView fromTextView;
     private TextView toTextView;
     private Button searchButton;
+    protected boolean isOneWay = false;
 
     public oneWay() {
         // Required empty public constructor
@@ -75,6 +81,7 @@ public class oneWay extends Fragment {
                 startActivityForResult(in,1);
             }
         });
+
     toTextView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -85,15 +92,20 @@ public class oneWay extends Fragment {
         departure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 showCalendarPopup();
+                isOneWay = true;
             }
         });
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(getContext(), SearchFlights.class);
-                in.putExtra("isOneWay", true);
-                startActivity(in);
+                in.putExtra("isOneWay", isOneWay);
+                in.putExtra("fromTxt",fromTextView.getText().toString());
+                in.putExtra("toTxt",toTextView.getText().toString());
+                startActivityForResult(in,3);
+
             }
         });
 
@@ -119,7 +131,6 @@ public class oneWay extends Fragment {
 
 
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -134,7 +145,7 @@ public class oneWay extends Fragment {
                     fromTextView.setText(cityName);
                 }
             }
-        }else {
+        }else if( requestCode == 2){
             if (resultCode == Activity.RESULT_OK){
                 if (data != null){
                     String cityName = data.getStringExtra("cityName");
@@ -142,6 +153,7 @@ public class oneWay extends Fragment {
                 }
             }
         }
+
     }
 
 }
