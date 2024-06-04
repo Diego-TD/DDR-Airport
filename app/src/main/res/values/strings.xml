@@ -78,7 +78,7 @@
         <item>Birmingham Airport, UK</item>
     </string-array>
     <string name="departing_flights_text">Departing from: %1$s To: %2$s</string>
-    `
+
     <string-array name="fromAirports1">
         <!-- México -->
         <item>México City, México</item>
@@ -146,6 +146,13 @@
         <item>Manchester, Reino Unido</item>
         <item>London, Reino Unido</item>
         <item>Birmingham, Reino Unido</item>
+
+    </string-array>
+
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
     </string-array>
 
 </resources>
