@@ -24,8 +24,9 @@ import com.ddr.logic.DDRS;
 import com.ddr.logic.RetrofitClient;
 import com.ddr.logic.util.FlightDTO;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -45,7 +46,7 @@ public class oneWay extends Fragment {
     private TextView fromTextView;
     private TextView toTextView;
     private Button searchButton;
-    private Date dateToSearch;
+    private String dateToSearch;
     protected boolean isOneWay = false;
 
     public oneWay() {
@@ -84,30 +85,18 @@ public class oneWay extends Fragment {
             String cityName = getArguments().getString("cityName");
             fromTextView.setText(cityName);
         }
-        fromTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(requireContext(), SearchAirports.class);
-
-
-                startActivityForResult(in, 1);
-            }
+        fromTextView.setOnClickListener(v -> {
+            Intent in = new Intent(requireContext(), SearchAirports.class);
+            startActivityForResult(in, 1);
         });
 
-        toTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(getContext(), SearchAirports.class);
-                startActivityForResult(in, 2);
-            }
+        toTextView.setOnClickListener(v -> {
+            Intent in = new Intent(getContext(), SearchAirports.class);
+            startActivityForResult(in, 2);
         });
-        departure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                showCalendarPopup();
-                isOneWay = true;
-            }
+        departure.setOnClickListener(v -> {
+            showCalendarPopup();
+            isOneWay = true;
         });
 
         searchButton.setOnClickListener(v -> {
@@ -139,11 +128,16 @@ public class oneWay extends Fragment {
 
             Time[] timeArray = new Time[4];
 
-            // Asignando valores de tiempo específicos
-            timeArray[0] = Time.valueOf("09:00:00");  // 09:00 AM
-            timeArray[1] = Time.valueOf("12:30:00"); // 12:30 PM
-            timeArray[2] = Time.valueOf("15:45:00"); // 03:45 PM
-            timeArray[3] = Time.valueOf("18:15:00"); // 06:15 PM
+// Asignando valores de tiempo específicos
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss aa");
+            try {
+                timeArray[0] = new Time(timeFormat.parse("09:00:00 AM").getTime());  // 09:00 AM
+                timeArray[1] = new Time(timeFormat.parse("12:30:00 PM").getTime()); // 12:30 PM
+                timeArray[2] = new Time(timeFormat.parse("03:45:00 PM").getTime()); // 03:45 PM
+                timeArray[3] = new Time(timeFormat.parse("06:15:00 PM").getTime()); // 06:15 PM
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
 
 
             for (int i = 0; i < 4; i++) {
@@ -151,7 +145,7 @@ public class oneWay extends Fragment {
                 flightDTO.setDate(dateToSearch);
                 flightDTO.setDepartureAirportId(departureAirport.getId());
                 flightDTO.setArrivalAirportId(arrivalAirport.getId());
-                flightDTO.setTime(timeArray[i]);
+                flightDTO.setTime(timeArray[i].toString());
                 flightDTO.setAirplaneId(1L);
 
                 Call<Void> call = api.addFlight(flightDTO); //TODO: doesn't create the things
@@ -182,7 +176,6 @@ public class oneWay extends Fragment {
         return rootView;
     }
 
-
     private void showCalendarPopup() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -190,18 +183,18 @@ public class oneWay extends Fragment {
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                dateToSearch = new Date(year, month + 1, dayOfMonth);
+                // Use the pattern with leading zeros for single-digit months and days
+                dateToSearch = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+
                 String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                 departure.setText(selectedDate);
-
             }
         }, year, month, dayOfMonth);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();
-
-
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
