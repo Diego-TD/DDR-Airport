@@ -10,7 +10,7 @@ public class RetrofitClient {
     public static Retrofit getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://maintenance-ways.gl.at.ply.gg:18414")
+                    .baseUrl("https://ddr-airport-back-kfzd5spnca-vp.a.run.app")
                     //.baseUrl("http://localhost:8080") // for testing
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

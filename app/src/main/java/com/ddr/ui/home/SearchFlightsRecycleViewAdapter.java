@@ -42,11 +42,11 @@ public SearchFlightsRecycleViewAdapter (Context context, ArrayList<PlaneModel> p
     public void onBindViewHolder(@NonNull SearchFlightsRecycleViewAdapter.SearchFlightsViewHolder holder, int position) {
         PlaneModel planeModel = planeModelList.get(position);
         // Configura los datos en el CardView
-        holder.timeToGoTextView.setText(planeModel.getTimeToGo());
-        holder.timeToArriveTextView.setText(planeModel.getTimeToArrive());
-        holder.fromCityCodeTextView.setText(planeModel.getFromtxt());
-        holder.toCityCodeTextView.setText(planeModel.getToTxt());
-        holder.planeImageView.setImageResource(planeModel.getImage());
+//        holder.timeToGoTextView.setText(planeModel.getTimeToGo());
+//        holder.timeToArriveTextView.setText(planeModel.getTimeToArrive());
+//        holder.fromCityCodeTextView.setText(planeModel.getFromtxt());
+//        holder.toCityCodeTextView.setText(planeModel.getToTxt());
+//        holder.planeImageView.setImageResource(planeModel.getImage());
     }
 
     @Override

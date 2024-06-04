@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -19,6 +20,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ddr.R;
+import com.ddr.logic.Airport;
+import com.ddr.logic.AirportCityCountries;
+import com.ddr.logic.Calls;
+import com.ddr.logic.DDRS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +31,13 @@ import java.util.List;
 public class SearchAirports extends AppCompatActivity implements RecycleViewInterface {
 
     private RecyclerView recyclerView;
-    private ArrayList<PlaneModel> planeModels;
+    private ArrayList<Airport> planeModels;
     TextView fromTextView;
     private List<PlaneModel> item;
     private SearchView searchView;
     private int planeImage = R.drawable.baseline_airplanemode_active_24;
     RecycleViewAdapter adapter;
+    private DDRS ddrSINGLETON;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,8 +45,9 @@ public class SearchAirports extends AppCompatActivity implements RecycleViewInte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_airports);
         EdgeToEdge.enable(this);
+        this.ddrSINGLETON = DDRS.getDDRSINGLETON(getApplicationContext());
+        planeModels = new ArrayList<>();
 
-//
         // Inicializar RecyclerView
         recyclerView = findViewById(R.id.searchRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -93,10 +100,10 @@ public class SearchAirports extends AppCompatActivity implements RecycleViewInte
     }
 
     private void filterList(String newText) {
-        ArrayList<PlaneModel> filteredList = new ArrayList<>();
+        ArrayList<Airport> filteredList = new ArrayList<>();
 
-        for (PlaneModel planeModel : planeModels) {
-            if (planeModel.getFromtxt().toLowerCase().contains(newText.toLowerCase())) {
+        for (Airport planeModel : planeModels) {
+            if (planeModel.getName().toLowerCase().contains(newText.toLowerCase())) {
                 filteredList.add(planeModel);
             }
         }
@@ -109,12 +116,20 @@ public class SearchAirports extends AppCompatActivity implements RecycleViewInte
     }
 
     private void setUpPlanes() {
-        planeModels = new ArrayList<>();
-        String[] fromTxt = getResources().getStringArray(R.array.fromAirports1);
-        for (String cityName : fromTxt) {
-            Log.d("PlaneModel", "City name: " + cityName);
-            planeModels.add(new PlaneModel(cityName, planeImage));
+        List<AirportCityCountries> airportCityCountriesList = ddrSINGLETON.getAirportCityCountriesList();
+
+        for (AirportCityCountries airportCityCountry : airportCityCountriesList){
+            planeModels.add(airportCityCountry.getAirport());
+
         }
+
+
+//        planeModels = new ArrayList<>();
+//        String[] fromTxt = getResources().getStringArray(R.array.fromAirports1);
+//        for (String cityName : fromTxt) {
+//            Log.d("PlaneModel", "City name: " + cityName);
+//            planeModels.add(new PlaneModel(cityName, planeImage));
+//        }
     }
 
     @Override

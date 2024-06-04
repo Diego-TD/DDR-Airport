@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ddr.R;
+import com.ddr.logic.Airport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,8 @@ import java.util.List;
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.MyViewHolder> {
     private final RecycleViewInterface recycleViewInterface;
     Context context;
-    static ArrayList<PlaneModel> planeModels;
-    public RecycleViewAdapter(Context context, ArrayList<PlaneModel> planeModels,
+    static ArrayList<Airport> planeModels;
+    public RecycleViewAdapter(Context context, ArrayList<Airport> planeModels,
     RecycleViewInterface recycleViewInterface) {
         this.context = context;
         this.planeModels = planeModels;
@@ -40,8 +41,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RecycleViewAdapter.MyViewHolder holder, int position) {
-        holder.cities.setText(planeModels.get(position).getFromtxt());
-        holder.imageView.setImageResource(planeModels.get(position).getImage());
+        holder.cities.setText(planeModels.get(position).getName());
+//        holder.imageView.setImageResource(planeModels.get(position).getImage());
         holder.setPosition(position);
 
 
@@ -75,7 +76,7 @@ TextView fromTxt;
                     if (recycleViewInterface != null && cities != null) {
                         if (position != RecyclerView.NO_POSITION) {
 
-                            recycleViewInterface.OnClickItem(planeModels.get(position).getFromtxt());
+                            recycleViewInterface.OnClickItem(planeModels.get(position).getName());
                         }
                     }
                 }
@@ -89,7 +90,7 @@ TextView fromTxt;
             this.position = position;
         }
     }
-    public void setFilteredList(ArrayList<PlaneModel> filteredList){
+    public void setFilteredList(ArrayList<Airport> filteredList){
 this.planeModels = filteredList;
 notifyDataSetChanged();
 

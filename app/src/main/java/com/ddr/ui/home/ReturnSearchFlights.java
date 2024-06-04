@@ -167,7 +167,7 @@ public class ReturnSearchFlights extends AppCompatActivity implements RecycleVie
 
         // Iterar sobre los arreglos y crear los objetos PlaneModel
         for (int i = 0; i < 27; i++) {
-            planeModels.add(new PlaneModel(fromAirports, toAirports,time.getCurrentData(), time.getCurrentData(),  planeImage));
+           // planeModels.add(new PlaneModel(fromAirports, toAirports,time.getCurrentData(), time.getCurrentData(),  planeImage));
             // Avanzar al siguiente tiempo
         }}
 
