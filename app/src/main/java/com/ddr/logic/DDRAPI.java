@@ -1,5 +1,7 @@
 package com.ddr.logic;
 
+import com.ddr.logic.util.FlightDTO;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,6 +31,13 @@ public interface DDRAPI {
 
     @POST("/login")
     Call<Long> loginUser(@Body User user);
+
+    @POST("/flight")
+    Call<Void> addFlight(@Body FlightDTO flight);
+    @GET("/flights")
+    Call<List<Flight>> getFlights();
+    @GET("/flights/{id}")
+    Call<Flight> getFlight(@Path("id") long id);
 
 
 }

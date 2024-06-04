@@ -60,10 +60,10 @@ public class AccountFragment extends Fragment {
 
                 Airport airport = response.body();
                 assert airport != null;
-                Log.d("AirportFragment", "Airport data: " + airport.toString(airport));
-                textView.post(() -> {
-                    textView.setText(airport.toString(airport));
-                });
+//                Log.d("AirportFragment", "Airport data: " + airport.toString(airport));
+//                textView.post(() -> {
+//                    textView.setText(airport.toString(airport));
+//                });
             }
 
             @Override
