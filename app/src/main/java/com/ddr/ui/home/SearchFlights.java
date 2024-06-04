@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ddr.MainUserMenu;
 import com.ddr.R;
+import com.ddr.logic.Reservation;
 import com.ddr.ui.Reservations.ReservationsFragment;
 import com.ddr.ui.Reservations.ReservationsViewModel;
 
@@ -132,8 +133,8 @@ public class SearchFlights extends AppCompatActivity implements RecycleViewInter
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("ticketCreated", true);
             ReservationsFragment reservationsFragment = new ReservationsFragment();
-                ArrayList<ReservationsViewModel> reservationsViewModels = new ArrayList<>();
-                reservationsViewModels.add(new ReservationsViewModel(cityToText, cityFromText,"12:30", "13:30","1","",23,"3"));
+                ArrayList<Reservation> reservationsViewModels = new ArrayList<>();
+               // reservationsViewModels.add(new ReservationsViewModel(cityToText, cityFromText,"12:30", "13:30","1","",23,"3"));
                 reservationsFragment.setReservationsViewModels(reservationsViewModels);
                         setResult(RESULT_OK, returnIntent);
                         finish();

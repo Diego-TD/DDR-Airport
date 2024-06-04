@@ -1,5 +1,6 @@
 package com.ddr.ui.Reservations;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,18 +15,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ddr.R;
+import com.ddr.logic.AirportCityCountries;
+import com.ddr.logic.City;
+import com.ddr.logic.DDRS;
+import com.ddr.logic.Reservation;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+    private DDRS ddrSINGLETON;
     private static Context context;
     private RecyclerViewInterface recyclerViewInterface;
-    private ArrayList<ReservationsViewModel> reservationsViewModels;
+    private ArrayList<Reservation> reservationsViewModels;
 
-    public RecyclerViewAdapter(Context context, ArrayList<ReservationsViewModel> reservationsViewModels, RecyclerViewInterface recyclerViewInterface){
+    public RecyclerViewAdapter(Context context, ArrayList<Reservation> reservationsViewModels, RecyclerViewInterface recyclerViewInterface){
         this.context = context;
         this.reservationsViewModels = reservationsViewModels;
         this.recyclerViewInterface = recyclerViewInterface;
+        ddrSINGLETON = DDRS.getDDRSINGLETON(context);
     }
 
     @NonNull
@@ -36,14 +45,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new RecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.origen.setText(reservationsViewModels.get(position).getOrigin());
-        holder.destino.setText(reservationsViewModels.get(position).getDestiny());
-        holder.horaSalida.setText(reservationsViewModels.get(position).getDepartureTime());
-        holder.horaLlegada.setText(reservationsViewModels.get(position).getArrivalTime());
-        holder.numeroVuelo.setText(reservationsViewModels.get(position).getFlightNumber());
-        holder.fechaSalida.setText(reservationsViewModels.get(position).getDateDay());
+        List<AirportCityCountries> airportCityCountriesList = ddrSINGLETON.getAirportCityCountriesList();
+        City departureCity = new City();
+        City arrivalCity = new City();
+
+        for (AirportCityCountries airportCityCountries : airportCityCountriesList) {
+            if (Objects.equals(airportCityCountries.getAirport().getName(), reservationsViewModels.get(position).getFlight().getDepartureAirport().getName())){
+                departureCity = airportCityCountries.getCity();
+            }
+            if (Objects.equals(airportCityCountries.getAirport().getName(), reservationsViewModels.get(position).getFlight().getArrivalAirport().getName())){
+                arrivalCity = airportCityCountries.getCity();
+            }
+        }
+
+        holder.origen.setText(departureCity.getName());
+        holder.destino.setText(arrivalCity.getName());
+        holder.horaSalida.setText(reservationsViewModels.get(position).getFlight().getTime());
+        holder.horaLlegada.setText(reservationsViewModels.get(position).getFlight().getTime());
+        holder.numeroVuelo.setText(reservationsViewModels.get(position).getFlight().getId().toString());
+        holder.fechaSalida.setText(reservationsViewModels.get(position).getFlight().getDate());
     }
 
     @Override

@@ -20,26 +20,42 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ddr.R;
 import com.ddr.databinding.FragmentReservationsBinding;
+import com.ddr.logic.AirportCityCountries;
+import com.ddr.logic.City;
+import com.ddr.logic.DDRAPI;
+import com.ddr.logic.DDRS;
+import com.ddr.logic.Reservation;
+import com.ddr.logic.RetrofitClient;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class ReservationsFragment extends Fragment implements RecyclerViewInterface{
-
+    private DDRS ddrSINGLETON;
     private FragmentReservationsBinding binding;
-    protected ArrayList<ReservationsViewModel> reservationsViewModels = new ArrayList<>();
+    protected ArrayList<Reservation> reservationsViewModels = new ArrayList<>();
     private RecyclerViewAdapter adapter;
     private int vueloId = R.drawable.vuelo;
+    private RecyclerView recyclerView;
+    private TextView reservationFragmentTextViewFeedback;
 
     public RecyclerViewAdapter getAdapter() {
         return adapter;
     }
 
 
-    public ArrayList<ReservationsViewModel> getReservationsViewModels() {
+    public ArrayList<Reservation> getReservationsViewModels() {
         return reservationsViewModels;
     }
 
-    public void setReservationsViewModels(ArrayList<ReservationsViewModel> reservationsViewModels) {
+    public void setReservationsViewModels(ArrayList<Reservation> reservationsViewModels) {
         this.reservationsViewModels = reservationsViewModels;
     }
 
@@ -51,14 +67,17 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentReservationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        ddrSINGLETON = DDRS.getDDRSINGLETON(getActivity().getApplicationContext());
+        getReservations();
 
-        RecyclerView recyclerView = root.findViewById(R.id.myRecyclerView);
+        recyclerView = root.findViewById(R.id.myRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         adapter = new RecyclerViewAdapter(getContext(), reservationsViewModels, this);
-        reservationsViewModels.add(new ReservationsViewModel("No Hay Vuelos ", "No Hay Vuelos", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", vueloId,"3"));
-//        setUpReservationsModel();
         recyclerView.setAdapter(adapter);
+        reservationFragmentTextViewFeedback = root.findViewById(R.id.reservationFragmentTextViewFeedback);
+        reservationFragmentTextViewFeedback.bringToFront();
+        //reservationsViewModels.add(new ReservationsViewModel("No Hay Vuelos ", "No Hay Vuelos", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", vueloId,"3"));
+//        setUpReservationsModel();
 
         return root;
     }
@@ -81,20 +100,52 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
 
         return null;
     }*/
+    public void getReservations(){
+        Retrofit retrofit = RetrofitClient.getClient();
+        DDRAPI api = retrofit.create(DDRAPI.class);
+        Call<List<Reservation>> call = api.getReservationsByUser(ddrSINGLETON.getUserId());
 
-    public void setUpReservationsModel(){
-        String[] origenes = {"Culiacan", "Mazatlan", "Mochis", "Guasave", "Ensenada", "Tijuana", "Mexicali", "CDMX"};
-        String[] destinos = {"Paris", "Berlin", "Amsterdam", "Dubai", "Dortmund", "Munich", "Praga", "Dublin"};
-        String[] horaSalida = {"10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM", "12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM"};
-        String[] horaLlegada = {"12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM", "10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM"};
-        String[] fecha = {"Sab, 08 Jun 2024", "Mie, 15 Sep 2024", "Dom, 01 Agosto 2024", "Lun, 20 Jul 2024", "Mar, 11 May 2024", "Jue, 30 Nov 2024", "Sab, 25 Dic 2024", "Vie, 13 Oct 2024"};
-        String[] numVuelo = {"78adn43", "65nj24d", "ka72n43", "mlf09f7g", "3m2ns6s", "cbgs342", "cnjddg7", "xcs532"};
-        String[] maleta = {"Zero", "Zero", "Zero", "Zero", "Zero", "Zero", "Zero", "Zero"};
-        for (int i = 0; i < origenes.length; i++) {
-            reservationsViewModels.add(new ReservationsViewModel(destinos[i], origenes[i], horaSalida[i], horaLlegada[i], numVuelo[i], fecha[i], vueloId, maleta[i]));
-        }
+        call.enqueue(new Callback<List<Reservation>>() {
+            @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
+            @Override
+            public void onResponse(Call<List<Reservation>> call, Response<List<Reservation>> response) {
+                List<Reservation> reservations = response.body();
+                Log.d("ReservationsFragment", "Received reservations" );
+                assert reservations != null;
+                if (reservations.isEmpty()){
+                    reservationFragmentTextViewFeedback.setText("You don't have reservations");
+                    reservationFragmentTextViewFeedback.setVisibility(View.VISIBLE);
+                    return;
+                }
 
+                reservationsViewModels.addAll(reservations);
+                adapter.notifyDataSetChanged();
+                //TODO: Implement some UI to provide feedback, like, here we could hidden a textview
+                reservationFragmentTextViewFeedback.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Reservation>> call, Throwable throwable) {
+                reservationFragmentTextViewFeedback.setText("Error fetching reservations: " + throwable.getMessage());
+                Log.e("ReservationsFragment", "Error fetching reservations: " + throwable.getMessage());
+            }
+        });
     }
+
+//    public void setUpReservationsModel(){
+//        String[] origenes = {"Culiacan", "Mazatlan", "Mochis", "Guasave", "Ensenada", "Tijuana", "Mexicali", "CDMX"};
+//        String[] destinos = {"Paris", "Berlin", "Amsterdam", "Dubai", "Dortmund", "Munich", "Praga", "Dublin"};
+//        String[] horaSalida = {"10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM", "12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM"};
+//        String[] horaLlegada = {"12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM", "10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM"};
+//        String[] fecha = {"Sab, 08 Jun 2024", "Mie, 15 Sep 2024", "Dom, 01 Agosto 2024", "Lun, 20 Jul 2024", "Mar, 11 May 2024", "Jue, 30 Nov 2024", "Sab, 25 Dic 2024", "Vie, 13 Oct 2024"};
+//        String[] numVuelo = {"78adn43", "65nj24d", "ka72n43", "mlf09f7g", "3m2ns6s", "cbgs342", "cnjddg7", "xcs532"};
+//        String[] maleta = {"Zero", "Zero", "Zero", "Zero", "Zero", "Zero", "Zero", "Zero"};
+//        for (int i = 0; i < origenes.length; i++) {
+//            reservationsViewModels.add(new ReservationsViewModel(destinos[i], origenes[i], horaSalida[i], horaLlegada[i], numVuelo[i], fecha[i], vueloId, maleta[i]));
+//        }
+//
+//    }
 //
 //    public void setUpReservationsModel(){
 //        String[] origenes = {"Culiacan", "Mazatlan", "Mochis", "Guasave", "Ensenada", "Tijuana", "Mexicali", "CDMX"};
@@ -113,17 +164,28 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
 
     @Override
     public void onItemClick(int position) {
-        //Log.d("ReservationsFragment", "Item clicked at position: " + position);
+        List<AirportCityCountries> airportCityCountriesList = ddrSINGLETON.getAirportCityCountriesList();
+        City departureCity = new City();
+        City arrivalCity = new City();
+
+        for (AirportCityCountries airportCityCountries : airportCityCountriesList) {
+            if (Objects.equals(airportCityCountries.getAirport().getName(), reservationsViewModels.get(position).getFlight().getDepartureAirport().getName())){
+                departureCity = airportCityCountries.getCity();
+            }
+            if (Objects.equals(airportCityCountries.getAirport().getName(), reservationsViewModels.get(position).getFlight().getArrivalAirport().getName())){
+                arrivalCity = airportCityCountries.getCity();
+            }
+        }
 
         Intent intent = new Intent(requireContext(), BoardingPass.class);
         //startActivityForResult(intent, position);
-        intent.putExtra("destiny", reservationsViewModels.get(position).getDestiny());
-        intent.putExtra("origin", reservationsViewModels.get(position).getOrigin());
-        intent.putExtra("date", reservationsViewModels.get(position).getDateDay());
-        intent.putExtra("arrive", reservationsViewModels.get(position).getArrivalTime());
-        intent.putExtra("departure", reservationsViewModels.get(position).getDepartureTime());
-        intent.putExtra("number", reservationsViewModels.get(position).getFlightNumber());
-        intent.putExtra("maleta", reservationsViewModels.get(position).getLugagge());
+        intent.putExtra("destiny", departureCity.getName());
+        intent.putExtra("origin", arrivalCity.getName());
+        intent.putExtra("date", reservationsViewModels.get(position).getFlight().getDate());
+        intent.putExtra("arrive", reservationsViewModels.get(position).getFlight().getTime());
+        intent.putExtra("departure", reservationsViewModels.get(position).getFlight().getTime());
+        intent.putExtra("number", reservationsViewModels.get(position).getFlight().getId());
+        intent.putExtra("maleta", reservationsViewModels.get(position).getLuggage());
 
         //Log.d("ReservationsFragment", "Starting BoardingPass activity");
         startActivity(intent);

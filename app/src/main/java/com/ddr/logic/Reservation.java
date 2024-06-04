@@ -6,7 +6,7 @@ public class Reservation {
     private Long id;
     private Flight flight;
     private User user;
-    private LocalDateTime createdAt;
+    private String createdAt;
     private Integer luggage;
     private Double total;
 
@@ -15,7 +15,7 @@ public class Reservation {
 
     }
 
-    public Reservation(Long id, Flight flight, User user, LocalDateTime createdAt, Integer luggage, Double total) {
+    public Reservation(Long id, Flight flight, User user, String createdAt, Integer luggage, Double total) {
         this.id = id;
         this.flight = flight;
         this.user = user;
@@ -48,11 +48,11 @@ public class Reservation {
         this.user = user;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 

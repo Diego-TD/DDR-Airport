@@ -34,10 +34,23 @@ public interface DDRAPI {
 
     @POST("/flight")
     Call<Void> addFlight(@Body FlightDTO flight);
+
     @GET("/flights")
     Call<List<Flight>> getFlights();
+
     @GET("/flights/{id}")
     Call<Flight> getFlight(@Path("id") long id);
 
+    @GET("/reservations")
+    Call<List<Reservation>> getReservations();
+
+    @GET("/reservations/user/{id}")
+    Call<List<Reservation>> getReservationsByUser(@Path("id") long id);
+
+    @GET("/reservation/{id}")
+    Call<Reservation> getReservation(@Path("id") long id);
+
+    @POST("/reservation")
+    Call<Void> addReservation(@Body Reservation reservation);
 
 }
