@@ -16,15 +16,17 @@ public class DDRS {
     private final Context context;
     private List<AirportCityCountries> airportCityCountriesList;
     private List<Reservation> reservationsList;
-    private Integer userId;
-
+    private Long userId;
     private final Gson gson = new Gson();
     private final File airportCityCountriesFile;
+    private final File userIdFile;
 
     private DDRS(Context context) {
         this.context = context;
         this.airportCityCountriesFile = new File(context.getFilesDir(), "airportCityCountries.json");
+        this.userIdFile = new File(context.getFilesDir(), "userIdFile.json");
         this.airportCityCountriesList = loadAirportCityCountries();
+        this.userId = loadUserIdFile();
     }
 
     public static DDRS getDDRSINGLETON(Context context) {
@@ -36,6 +38,7 @@ public class DDRS {
 
     public void saveData() {
         saveAirportCityCountries();
+        saveUserIdFile();
     }
 
     private List<AirportCityCountries> loadAirportCityCountries() {
@@ -50,12 +53,31 @@ public class DDRS {
         return new ArrayList<>();
     }
 
+    private Long loadUserIdFile() {
+        if (userIdFile.exists()) {
+            Type longType = new TypeToken<Long>() {}.getType();
+            try (FileReader reader = new FileReader(this.userIdFile)) {
+                return gson.fromJson(reader, longType);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     private void saveAirportCityCountries() {
         try (FileWriter writer = new FileWriter(airportCityCountriesFile)) {
             gson.toJson(airportCityCountriesList, writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void saveUserIdFile() {
+        try (FileWriter writer = new FileWriter(userIdFile)) {
+            gson.toJson(userId, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+            }
     }
 
     public List<AirportCityCountries> getAirportCityCountriesList() {
@@ -75,11 +97,12 @@ public class DDRS {
         this.reservationsList = reservationsList;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
+        saveData();
     }
 }
