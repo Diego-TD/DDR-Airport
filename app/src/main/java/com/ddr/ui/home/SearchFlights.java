@@ -19,11 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ddr.R;
 import com.ddr.logic.Airplane;
 import com.ddr.logic.Airport;
+import com.ddr.logic.AirportCityCountries;
 import com.ddr.logic.DDRAPI;
 import com.ddr.logic.DDRS;
 import com.ddr.logic.Flight;
 import com.ddr.logic.Reservation;
 import com.ddr.logic.RetrofitClient;
+import com.ddr.logic.util.FlightDTO;
 import com.ddr.ui.Reservations.RecyclerViewAdapter;
 import com.ddr.ui.Reservations.RecyclerViewInterface;
 
@@ -69,30 +71,49 @@ public class SearchFlights extends AppCompatActivity implements RecyclerViewInte
             recycleView.setAdapter(adapter);
 
             ddrSINGLETON = DDRS.getDDRSINGLETON(getApplicationContext());
-            getFlights();
 
-           Intent in = getIntent();
-            String cityFromText = "";
-            String cityToText = "";
+            Intent in = getIntent();
+            String date = "";
+            String departureAirport = "";
+            String arrivalAirport = "";
             if (in != null) {
-               String cityFromTextPrev = in.getStringExtra("fromTxt");
-               String cityToTextPrev = in.getStringExtra("toTxt");
-                cityFromText = cityFromTextPrev;
-                cityToText = cityToTextPrev;
+                String dateFromIntent = in.getStringExtra("date");
+                String departureAirportFromIntent = in.getStringExtra("departureAirport");
+                String arrivalAirportFromIntent = in.getStringExtra("arrivalAirport");
+                departureAirport = departureAirportFromIntent;
+                arrivalAirport = arrivalAirportFromIntent;
+                date = dateFromIntent;
 
             }
-            String departingFlightsText = getString(R.string.departing_flights_text, cityFromText, cityToText);
+            String departingFlightsText = getString(R.string.departing_flights_text, departureAirport, arrivalAirport);
+            getFlights(departureAirport, arrivalAirport, date);
 
             departingFlights.setText(departingFlightsText);
             return insets;
         });
     }
 
-    public void getFlights(){
+    public void getFlights(String departureAirport, String arrivalAirport, String date){
         Retrofit retrofit = RetrofitClient.getClient();
         DDRAPI api = retrofit.create(DDRAPI.class);
+        List<AirportCityCountries> airportCityCountriesList = ddrSINGLETON.getAirportCityCountriesList();
+        Long departureAirportId = null, arrivalAirportId = null;
 
-        Call<List<Flight>> call = api.getFlights();
+        for (AirportCityCountries airportCityCountries: airportCityCountriesList) {
+            if (airportCityCountries.getAirport().getName().equals(departureAirport)) {
+                departureAirportId = airportCityCountries.getAirport().getId();
+            } else if (airportCityCountries.getAirport().getName().equals(arrivalAirport)) {
+                arrivalAirportId = airportCityCountries.getAirport().getId();
+            }
+        }
+
+        FlightDTO flight = new FlightDTO();
+        flight.setDepartureAirportId(departureAirportId);
+        flight.setArrivalAirportId(arrivalAirportId);
+        flight.setDate(date);
+
+        Call<List<Flight>> call = api.getFlightsByAirports(flight);
+
         call.enqueue(new Callback<List<Flight>>() {
             @Override
             public void onResponse(Call<List<Flight>> call, Response<List<Flight>> response) {

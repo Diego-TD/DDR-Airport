@@ -38,6 +38,9 @@ public interface DDRAPI {
     @GET("/flights")
     Call<List<Flight>> getFlights();
 
+    @POST("/flights")
+    Call<List<Flight>> getFlightsByAirports(@Body FlightDTO flightDTO);
+
     @GET("/flights/{id}")
     Call<Flight> getFlight(@Path("id") long id);
 

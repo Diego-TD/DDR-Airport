@@ -45,7 +45,6 @@ public class oneWay extends Fragment {
     private TextView toTextView;
     private Button searchButton;
     private String dateToSearch;
-    protected boolean isOneWay = false;
 
     public oneWay() {
         // Required empty public constructor
@@ -94,7 +93,6 @@ public class oneWay extends Fragment {
         });
         departure.setOnClickListener(v -> {
             showCalendarPopup();
-            isOneWay = true;
         });
 
         searchButton.setOnClickListener(v -> {
@@ -147,9 +145,9 @@ public class oneWay extends Fragment {
                 });
             }
             Intent in = new Intent(getContext(), SearchFlights.class);
-            in.putExtra("isOneWay", isOneWay);
-            in.putExtra("fromTxt", fromTextView.getText().toString());
-            in.putExtra("toTxt", toTextView.getText().toString());
+            in.putExtra("date", dateToSearch);
+            in.putExtra("departureAirport", fromTextView.getText().toString());
+            in.putExtra("arrivalAirport", toTextView.getText().toString());
             startActivity(in);
 
         });
