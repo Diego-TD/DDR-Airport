@@ -10,7 +10,7 @@ public class FlightDTO {
     private Long arrivalAirportId;
     private String date;
     private String time;
-
+    private String name;
     public FlightDTO() {
     }
 
@@ -36,6 +36,14 @@ public class FlightDTO {
 
     public void setDepartureAirportId(Long departureAirportId) {
         this.departureAirportId = departureAirportId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getArrivalAirportId() {

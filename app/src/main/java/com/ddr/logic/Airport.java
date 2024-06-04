@@ -2,7 +2,9 @@ package com.ddr.logic;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Airport {
+import java.io.Serializable;
+
+public class Airport implements Serializable {
     @SerializedName("id")
     private Long id;
     @SerializedName("name")

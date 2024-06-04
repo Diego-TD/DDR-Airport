@@ -13,20 +13,18 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.ddr.MainUserMenu;
 import com.ddr.R;
 import com.ddr.logic.Airport;
 import com.ddr.logic.AirportCityCountries;
 import com.ddr.logic.DDRAPI;
 import com.ddr.logic.DDRS;
+import com.ddr.logic.Flight;
 import com.ddr.logic.RetrofitClient;
 import com.ddr.logic.util.FlightDTO;
 
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -107,72 +105,55 @@ public class oneWay extends Fragment {
             Airport departureAirport = null;
             Airport arrivalAirport = null;
 
-
-            for (AirportCityCountries airportCityCountries:
-                    ddrSINGLETON.getAirportCityCountriesList()
-                ) {
+            for (AirportCityCountries airportCityCountries :
+                    ddrSINGLETON.getAirportCityCountriesList()) {
                 airports.add(airportCityCountries.getAirport());
             }
 
-            for (Airport airport:airports){
-                if (airport.getName().equals(fromTextView.getText().toString())){
+            for (Airport airport : airports) {
+                if (airport.getName().equals(fromTextView.getText().toString())) {
                     departureAirport = airport;
-
                 }
 
-                if (airport.getName().equals(toTextView.getText().toString())){
+                if (airport.getName().equals(toTextView.getText().toString())) {
                     arrivalAirport = airport;
                 }
-
             }
-
-            Time[] timeArray = new Time[4];
-
-// Asignando valores de tiempo específicos
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss aa");
-            try {
-                timeArray[0] = new Time(timeFormat.parse("09:00:00 AM").getTime());  // 09:00 AM
-                timeArray[1] = new Time(timeFormat.parse("12:30:00 PM").getTime()); // 12:30 PM
-                timeArray[2] = new Time(timeFormat.parse("03:45:00 PM").getTime()); // 03:45 PM
-                timeArray[3] = new Time(timeFormat.parse("06:15:00 PM").getTime()); // 06:15 PM
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-
 
             for (int i = 0; i < 4; i++) {
                 FlightDTO flightDTO = new FlightDTO();
                 flightDTO.setDate(dateToSearch);
+                assert departureAirport != null;
                 flightDTO.setDepartureAirportId(departureAirport.getId());
+                assert arrivalAirport != null;
                 flightDTO.setArrivalAirportId(arrivalAirport.getId());
-                flightDTO.setTime(timeArray[i].toString());
+                flightDTO.setTime("12:00:00");
                 flightDTO.setAirplaneId(1L);
 
-                Call<Void> call = api.addFlight(flightDTO); //TODO: doesn't create the things
+                Call<Void> call = api.addFlight(flightDTO);
 
                 call.enqueue(new Callback<Void>() {
 
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        Intent in = new Intent(getContext(), MainUserMenu.class);
-                        startActivity(in);
-                        in.putExtra("isOneWay", isOneWay);
-                        in.putExtra("fromTxt", fromTextView.getText().toString());
-                        in.putExtra("toTxt", toTextView.getText().toString());
-                        startActivityForResult(in, 3);
                         Log.d("searchFlights", "Flight added successfully");
 
                     }
 
                     @Override
-                    public void onFailure(Call<Void> call, Throwable throwable) {
+                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable throwable) {
                         Log.d("searchFlights", "Failed to search flights");
-
                     }
                 });
             }
+            Intent in = new Intent(getContext(), SearchFlights.class);
+            in.putExtra("isOneWay", isOneWay);
+            in.putExtra("fromTxt", fromTextView.getText().toString());
+            in.putExtra("toTxt", toTextView.getText().toString());
+            startActivity(in);
 
         });
+
         return rootView;
     }
 
@@ -186,9 +167,7 @@ public class oneWay extends Fragment {
             @SuppressLint("DefaultLocale")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                // Use the pattern with leading zeros for single-digit months and days
                 dateToSearch = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
-
                 String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                 departure.setText(selectedDate);
             }
@@ -196,29 +175,21 @@ public class oneWay extends Fragment {
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Manejar el resultado de la actividad secundaria aquí
-        if (requestCode == 1 ) {
-            if (resultCode == Activity.RESULT_OK) {
-                // El resultado fue exitoso, obtener los datos y actualizar la interfaz de usuario
-                if (data != null) {
-                    String cityName = data.getStringExtra("cityName");
-                    // Actualizar la vista con el resultado recibido
-                    fromTextView.setText(cityName);
-                }
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                String cityName = data.getStringExtra("cityName");
+                fromTextView.setText(cityName);
             }
-        }else if( requestCode == 2){
-            if (resultCode == Activity.RESULT_OK){
-                if (data != null){
-                    String cityName = data.getStringExtra("cityName");
-                    toTextView.setText(cityName);
-                }
+        } else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                String cityName = data.getStringExtra("cityName");
+                toTextView.setText(cityName);
             }
         }
-
     }
-
 }

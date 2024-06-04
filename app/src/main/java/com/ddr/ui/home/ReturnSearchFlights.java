@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ddr.MainUserMenu;
 import com.ddr.R;
+import com.ddr.logic.Flight;
 import com.ddr.ui.Reservations.ReservationsFragment;
 import com.ddr.ui.Reservations.ReservationsViewModel;
 
@@ -30,7 +31,7 @@ public class ReturnSearchFlights extends AppCompatActivity implements RecycleVie
 
     private SearchFlightsRecycleViewAdapter searchFlightsRecycleViewAdapter;
     private RecyclerView recycleView;
-    ArrayList<PlaneModel> planeModels;
+    ArrayList<Flight> planeModels;
     String cityFromText, cityToText, timeToGo, timeToArrive;
     private CircularLinkedList<String> time;
     TextView departingFlights;
@@ -50,7 +51,7 @@ public class ReturnSearchFlights extends AppCompatActivity implements RecycleVie
             time = new CircularLinkedList<>();
             generateRandomTimes(time);
             setUpPlanes();
-            searchFlightsRecycleViewAdapter = new SearchFlightsRecycleViewAdapter(this, planeModels, this);
+//            searchFlightsRecycleViewAdapter = new SearchFlightsRecycleViewAdapter(this, planeModels, this);
             recycleView.setAdapter(searchFlightsRecycleViewAdapter);
             Intent in = getIntent();
             if (in != null) {
@@ -121,6 +122,8 @@ public class ReturnSearchFlights extends AppCompatActivity implements RecycleVie
 
     }
 
+
+
 //@Override
 //public void OnClickItem(String text) {
 //    Intent currentIntent = getIntent();
@@ -167,7 +170,7 @@ public class ReturnSearchFlights extends AppCompatActivity implements RecycleVie
 
         // Iterar sobre los arreglos y crear los objetos PlaneModel
         for (int i = 0; i < 27; i++) {
-           // planeModels.add(new PlaneModel(fromAirports, toAirports,time.getCurrentData(), time.getCurrentData(),  planeImage));
+           // flights.add(new PlaneModel(fromAirports, toAirports,time.getCurrentData(), time.getCurrentData(),  planeImage));
             // Avanzar al siguiente tiempo
         }}
 

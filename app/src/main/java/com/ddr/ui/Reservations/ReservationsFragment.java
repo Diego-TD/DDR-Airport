@@ -108,7 +108,7 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
         call.enqueue(new Callback<List<Reservation>>() {
             @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
             @Override
-            public void onResponse(Call<List<Reservation>> call, Response<List<Reservation>> response) {
+            public void onResponse(@NonNull Call<List<Reservation>> call, @NonNull Response<List<Reservation>> response) {
                 List<Reservation> reservations = response.body();
                 Log.d("ReservationsFragment", "Received reservations" );
                 assert reservations != null;
@@ -126,7 +126,7 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
             }
 
             @Override
-            public void onFailure(Call<List<Reservation>> call, Throwable throwable) {
+            public void onFailure(@NonNull Call<List<Reservation>> call, @NonNull Throwable throwable) {
                 reservationFragmentTextViewFeedback.setText("Error fetching reservations: " + throwable.getMessage());
                 Log.e("ReservationsFragment", "Error fetching reservations: " + throwable.getMessage());
             }

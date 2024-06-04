@@ -124,11 +124,11 @@ public class SearchAirports extends AppCompatActivity implements RecycleViewInte
         }
 
 
-//        planeModels = new ArrayList<>();
+//        flights = new ArrayList<>();
 //        String[] fromTxt = getResources().getStringArray(R.array.fromAirports1);
 //        for (String cityName : fromTxt) {
 //            Log.d("PlaneModel", "City name: " + cityName);
-//            planeModels.add(new PlaneModel(cityName, planeImage));
+//            flights.add(new PlaneModel(cityName, planeImage));
 //        }
     }
 

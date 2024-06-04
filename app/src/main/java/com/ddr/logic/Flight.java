@@ -4,12 +4,13 @@ package com.ddr.logic;
 import java.sql.Date;
 import java.sql.Time;
 
-public class Flight {
+public class Flight  {
 
     private Long id;
     private Airplane airplane;
     private Airport departureAirport;
     private Airport arrivalAirport;
+    private String name;
     private String date;
     private String time;
     private Double price;
@@ -49,6 +50,14 @@ public class Flight {
 
     public void setDepartureAirport(Airport departureAirport) {
         this.departureAirport = departureAirport;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Airport getArrivalAirport() {

@@ -1,5 +1,6 @@
 package com.ddr.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,74 +12,92 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ddr.R;
+import com.ddr.logic.Airport;
+import com.ddr.logic.AirportCityCountries;
+import com.ddr.logic.City;
+import com.ddr.logic.DDRS;
+import com.ddr.logic.Flight;
+import com.ddr.logic.Reservation;
+import com.ddr.ui.Reservations.RecyclerViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class SearchFlightsRecycleViewAdapter extends RecyclerView.Adapter<SearchFlightsRecycleViewAdapter.SearchFlightsViewHolder> {
+public class SearchFlightsRecycleViewAdapter extends RecyclerView.Adapter<com.ddr.ui.home.SearchFlightsRecycleViewAdapter.MyViewHolder> {
+    private DDRS ddrSINGLETON;
+    private static Context context;
+    private RecyclerViewInterface recyclerViewInterface;
+    private ArrayList<Flight> flights;
 
-    private RecycleViewInterface recycleViewInterface;
-private Context context;
-private static ArrayList<PlaneModel> planeModelList;
-
-
-public SearchFlightsRecycleViewAdapter (Context context, ArrayList<PlaneModel> planeModelList,RecycleViewInterface recycleViewInterface){
-    this.context = context;
-    this.planeModelList = planeModelList;
-    this.recycleViewInterface = recycleViewInterface;
-
-}
-
-
+    public SearchFlightsRecycleViewAdapter(Context context, ArrayList<Flight> flights, RecyclerViewInterface recyclerViewInterface){
+        this.context = context;
+        this.flights = flights;
+        this.recyclerViewInterface = recyclerViewInterface;
+        ddrSINGLETON = DDRS.getDDRSINGLETON(context);
+    }
 
     @NonNull
     @Override
-    public SearchFlightsRecycleViewAdapter.SearchFlightsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.row_search_flight, parent, false);
-        return new SearchFlightsViewHolder(view, recycleViewInterface) ;
+    public com.ddr.ui.home.SearchFlightsRecycleViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.coso, parent, false);
+        return new SearchFlightsRecycleViewAdapter.MyViewHolder(view, recyclerViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchFlightsRecycleViewAdapter.SearchFlightsViewHolder holder, int position) {
-        PlaneModel planeModel = planeModelList.get(position);
-        // Configura los datos en el CardView
-//        holder.timeToGoTextView.setText(planeModel.getTimeToGo());
-//        holder.timeToArriveTextView.setText(planeModel.getTimeToArrive());
-//        holder.fromCityCodeTextView.setText(planeModel.getFromtxt());
-//        holder.toCityCodeTextView.setText(planeModel.getToTxt());
-//        holder.planeImageView.setImageResource(planeModel.getImage());
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        List<AirportCityCountries> airportCityCountriesList = ddrSINGLETON.getAirportCityCountriesList();
+        City departureCity = new City();
+        City arrivalCity = new City();
+
+        for (AirportCityCountries airportCityCountries : airportCityCountriesList) {
+            if (Objects.equals(airportCityCountries.getAirport().getName(), flights.get(position).getDepartureAirport().getName())){
+                departureCity = airportCityCountries.getCity();
+            }
+            if (Objects.equals(airportCityCountries.getAirport().getName(), flights.get(position).getArrivalAirport().getName())){
+                arrivalCity = airportCityCountries.getCity();
+            }
+        }
+
+        holder.origen.setText(departureCity.getName());
+        holder.destino.setText(arrivalCity.getName());
+        holder.horaSalida.setText(flights.get(position).getTime());
+        holder.horaLlegada.setText(flights.get(position).getTime());
+        holder.numeroVuelo.setText(flights.get(position).getId().toString());
+        holder.fechaSalida.setText(flights.get(position).getDate());
     }
+
+
 
     @Override
     public int getItemCount() {
-        return planeModelList.size();
+        return flights.size();
     }
-    public static class SearchFlightsViewHolder extends RecyclerView.ViewHolder {
 
-        TextView timeToGoTextView, timeToArriveTextView, fromCityCodeTextView, toCityCodeTextView;
-ImageView planeImageView;
-int position;
-        public SearchFlightsViewHolder (@NonNull View itemView, RecycleViewInterface recycleViewInterface) {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView destino, origen, horaSalida, horaLlegada, numeroVuelo, fechaSalida, maleta;
+
+        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
-            timeToGoTextView = itemView.findViewById(R.id.timeToGoTextView);
-            timeToArriveTextView = itemView.findViewById(R.id.timeToArriveTextView);
-            fromCityCodeTextView = itemView.findViewById(R.id.fromCityCode);
-            toCityCodeTextView = itemView.findViewById(R.id.toCityCode);
-            planeImageView = itemView.findViewById(R.id.planeLine);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (recycleViewInterface!= null && fromCityCodeTextView!= null && toCityCodeTextView != null){
-                        if(position!= RecyclerView.NO_POSITION){
-                            recycleViewInterface.OnClickItem(planeModelList.get(position).getFromtxt());
-                            recycleViewInterface.OnClickItem(planeModelList.get(position).getToTxt());
 
-                        }
+            destino = itemView.findViewById(R.id.destiny);
+            origen = itemView.findViewById(R.id.origin);
+            horaLlegada = itemView.findViewById(R.id.arrivalTime);
+            horaSalida = itemView.findViewById(R.id.departureTime);
+            numeroVuelo = itemView.findViewById(R.id.numberFlight);
+            fechaSalida = itemView.findViewById(R.id.dateDay);
+            maleta = itemView.findViewById(R.id.typeLuggage);
+
+            itemView.setOnClickListener(v -> {
+                if (recyclerViewInterface != null){
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION){
+                        recyclerViewInterface.onItemClick(position);
                     }
                 }
             });
-
-
         }
     }
 }

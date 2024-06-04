@@ -31,7 +31,7 @@
 //    // TODO: Rename and change types of parameters
 //    private String mParam1;
 //    private String mParam2;
-//    ArrayList<PlaneModel> planeModels = new ArrayList<>();
+//    ArrayList<PlaneModel> flights = new ArrayList<>();
 //    int planeImage = R.drawable.baseline_airplanemode_active_24;
 //
 //
@@ -78,7 +78,7 @@
 //        View rootView = inflater.inflate(R.layout.fragment_search_page, container, false);
 //        RecyclerView recyclerView = rootView.findViewById(R.id.searchRecyclerView);
 //        setUpPlanes();
-//        RecycleViewAdapter adapter = new RecycleViewAdapter(this.getContext(), planeModels);
+//        RecycleViewAdapter adapter = new RecycleViewAdapter(this.getContext(), flights);
 //        recyclerView.setAdapter(adapter);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 //        return rootView;

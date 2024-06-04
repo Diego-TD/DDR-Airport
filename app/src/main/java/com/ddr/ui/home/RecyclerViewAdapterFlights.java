@@ -1,5 +1,6 @@
 package com.ddr.ui.home;
 
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,18 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ddr.R;
 import com.ddr.logic.Airport;
+import com.ddr.logic.Flight;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.MyViewHolder> {
+public class RecyclerViewAdapterFlights extends RecyclerView.Adapter<RecycleViewAdapter.MyViewHolder> {
     private final RecycleViewInterface recycleViewInterface;
     Context context;
-    static ArrayList<Airport> planeModels;
-    public RecycleViewAdapter(Context context, ArrayList<Airport> planeModels,
-    RecycleViewInterface recycleViewInterface) {
+    static ArrayList<Flight> flights;
+    public RecyclerViewAdapterFlights(Context context, ArrayList<Flight> flights,
+                              RecycleViewInterface recycleViewInterface) {
         this.context = context;
-        this.planeModels = planeModels;
+        this.flights = flights;
         this.recycleViewInterface = recycleViewInterface;
     }
 
@@ -41,9 +43,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RecycleViewAdapter.MyViewHolder holder, int position) {
-        holder.cities.setText(planeModels.get(position).getName());
+        holder.cities.setText(flights.get(position).getName());
 //        holder.imageView.setImageResource(flights.get(position).getImage());
         holder.setPosition(position);
+
 
 
 
@@ -53,15 +56,15 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     @Override
     public int getItemCount() {
 
-        return planeModels.size();
+        return flights.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-//        TextView fromTextView;
-ImageView imageView;
-TextView cities;
-int position;
-TextView fromTxt;
+        //        TextView fromTextView;
+        ImageView imageView;
+        TextView cities;
+        int position;
+        TextView fromTxt;
 
 
         public MyViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface) {
@@ -71,13 +74,13 @@ TextView fromTxt;
             cities = itemView.findViewById(R.id.cities);
 
             itemView.setOnClickListener(v -> {
-                if (recycleViewInterface != null && cities != null) {
-                    if (position != RecyclerView.NO_POSITION) {
+                        if (recycleViewInterface != null && cities != null) {
+                            if (position != RecyclerView.NO_POSITION) {
 
-                        recycleViewInterface.OnClickItem(planeModels.get(position).getName());
+                                recycleViewInterface.OnClickItem(flights.get(position).getName());
+                            }
+                        }
                     }
-                }
-            }
             );
 
 
@@ -88,8 +91,8 @@ TextView fromTxt;
         }
     }
     public void setFilteredList(ArrayList<Airport> filteredList){
-this.planeModels = filteredList;
-notifyDataSetChanged();
+        //this.flights = filteredList;
+        notifyDataSetChanged();
 
     }
 }
