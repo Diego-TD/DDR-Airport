@@ -67,6 +67,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.horaLlegada.setText(reservationsViewModels.get(position).getFlight().getArrivalTime());
         holder.numeroVuelo.setText(reservationsViewModels.get(position).getFlight().getId().toString());
         holder.fechaSalida.setText(reservationsViewModels.get(position).getFlight().getDate());
+        holder.price.setText("$"+ reservationsViewModels.get(position).getTotal());
     }
 
     @Override
@@ -76,7 +77,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView destino, origen, horaSalida, horaLlegada, numeroVuelo, fechaSalida, maleta;
+        TextView destino, origen, horaSalida, horaLlegada, numeroVuelo, fechaSalida, maleta, price;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
@@ -88,6 +89,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             numeroVuelo = itemView.findViewById(R.id.numberFlight);
             fechaSalida = itemView.findViewById(R.id.dateDay);
             maleta = itemView.findViewById(R.id.typeLuggage);
+            price = itemView.findViewById(R.id.price);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

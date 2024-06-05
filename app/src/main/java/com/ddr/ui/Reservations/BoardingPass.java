@@ -16,17 +16,11 @@ import com.ddr.R;
 
 public class BoardingPass extends AppCompatActivity {
 
-    private TextView departureTime;
-    private TextView arrivalTime;
-    private TextView origin;
-    private TextView destiny;
-    private TextView date;
-    private TextView numberFlight;
+    private TextView departureTime, arrivalTime, origin, destiny, date, numberFlight,luggageType, price;
     private Button personalize;
-    private TextView luggageType;
     private Context contexto;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +36,7 @@ public class BoardingPass extends AppCompatActivity {
         numberFlight = findViewById(R.id.numberFlightPass);
         personalize = findViewById(R.id.personalizeButton);
         luggageType = findViewById(R.id.typeLuggage);
+        price = findViewById(R.id.priceTicket);
 
         String destino = getIntent().getStringExtra("destiny");
         String origen = getIntent().getStringExtra("origin");
@@ -60,6 +55,7 @@ public class BoardingPass extends AppCompatActivity {
         numberFlight.setText(numero);
         luggageType.setText(maleta);
 
+        price.setText("$"+getIntent().getStringExtra("price"));
         personalize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,20 +1,17 @@
 package com.ddr.ui.Reservations;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +24,6 @@ import com.ddr.logic.DDRS;
 import com.ddr.logic.Reservation;
 import com.ddr.logic.RetrofitClient;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,26 +38,12 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
     private FragmentReservationsBinding binding;
     protected ArrayList<Reservation> reservationsViewModels = new ArrayList<>();
     private RecyclerViewAdapter adapter;
-    private int vueloId = R.drawable.vuelo;
     private RecyclerView recyclerView;
     private TextView reservationFragmentTextViewFeedback;
 
-    public RecyclerViewAdapter getAdapter() {
-        return adapter;
-    }
-
-
-    public ArrayList<Reservation> getReservationsViewModels() {
-        return reservationsViewModels;
-    }
-
-    public void setReservationsViewModels(ArrayList<Reservation> reservationsViewModels) {
-        this.reservationsViewModels = reservationsViewModels;
-    }
-
     public ReservationsFragment(){
 
-}
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,24 +64,6 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
         return root;
     }
 
-
-    /*public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        ReservationsViewModel reservationsViewModel =
-                new ViewModelProvider(this).get(ReservationsViewModel.class);
-
-        binding = FragmentReservationsBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textDashboard;
-        reservationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
-        RecyclerView recyclerView = findViewById(R.id.destiny);
-        setUpReservationsModel();
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, reservationsViewModels);
-
-        return null;
-    }*/
     public void getReservations(){
         Retrofit retrofit = RetrofitClient.getClient();
         DDRAPI api = retrofit.create(DDRAPI.class);
@@ -133,35 +97,6 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
         });
     }
 
-//    public void setUpReservationsModel(){
-//        String[] origenes = {"Culiacan", "Mazatlan", "Mochis", "Guasave", "Ensenada", "Tijuana", "Mexicali", "CDMX"};
-//        String[] destinos = {"Paris", "Berlin", "Amsterdam", "Dubai", "Dortmund", "Munich", "Praga", "Dublin"};
-//        String[] horaSalida = {"10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM", "12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM"};
-//        String[] horaLlegada = {"12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM", "10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM"};
-//        String[] fecha = {"Sab, 08 Jun 2024", "Mie, 15 Sep 2024", "Dom, 01 Agosto 2024", "Lun, 20 Jul 2024", "Mar, 11 May 2024", "Jue, 30 Nov 2024", "Sab, 25 Dic 2024", "Vie, 13 Oct 2024"};
-//        String[] numVuelo = {"78adn43", "65nj24d", "ka72n43", "mlf09f7g", "3m2ns6s", "cbgs342", "cnjddg7", "xcs532"};
-//        String[] maleta = {"Zero", "Zero", "Zero", "Zero", "Zero", "Zero", "Zero", "Zero"};
-//        for (int i = 0; i < origenes.length; i++) {
-//            reservationsViewModels.add(new ReservationsViewModel(destinos[i], origenes[i], horaSalida[i], horaLlegada[i], numVuelo[i], fecha[i], vueloId, maleta[i]));
-//        }
-//
-//    }
-//
-//    public void setUpReservationsModel(){
-//        String[] origenes = {"Culiacan", "Mazatlan", "Mochis", "Guasave", "Ensenada", "Tijuana", "Mexicali", "CDMX"};
-//        String[] destinos = {"Paris", "Berlin", "Amsterdam", "Dubai", "Dortmund", "Munich", "Praga", "Dublin"};
-//        String[] horaSalida = {"10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM", "12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM"};
-//        String[] horaLlegada = {"12:00 AM", "11:00 AM", "6:00 PM", "10:00 PM", "10:00 AM", "6:00 AM", "3:00 PM", "8:00 PM"};
-//        String[] fecha = {"Sab, 08 Jun 2024", "Mie, 15 Sep 2024", "Dom, 01 Agosto 2024", "Lun, 20 Jul 2024", "Mar, 11 May 2024", "Jue, 30 Nov 2024", "Sab, 25 Dic 2024", "Vie, 13 Oct 2024"};
-//        String[] numVuelo = {"78adn43", "65nj24d", "ka72n43", "mlf09f7g", "3m2ns6s", "cbgs342", "cnjddg7", "xcs532"};
-//
-//        for (int i = 0; i < 2; i++) {
-//            reservationsViewModels.add(new ReservationsViewModel(destinos[i], origenes[i], horaSalida[i], horaLlegada[i], numVuelo[i], fecha[i], vueloId));
-//        }
-//
-//        //adapter.notifyDataSetChanged();
-//    }
-
     @Override
     public void onItemClick(int position) {
         List<AirportCityCountries> airportCityCountriesList = ddrSINGLETON.getAirportCityCountriesList();
@@ -186,31 +121,9 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
         intent.putExtra("departure", reservationsViewModels.get(position).getFlight().getDepartureTime());
         intent.putExtra("number", reservationsViewModels.get(position).getFlight().getId());
         intent.putExtra("maleta", reservationsViewModels.get(position).getLuggage());
+        intent.putExtra("price", reservationsViewModels.get(position).getTotal().toString());
 
         //Log.d("ReservationsFragment", "Starting BoardingPass activity");
         startActivity(intent);
     }
-
-
-
-
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == AppCompatActivity.RESULT_OK && data != null) {
-            String newLuggage = data.getStringExtra("newLuggage");
-            if (newLuggage != null) {
-                reservationsViewModels.get(requestCode).setLuggage(newLuggage);
-                adapter.notifyItemChanged(requestCode);
-            }
-        }
-    }/*
-
-
-
-    /*@Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }*/
 }

@@ -19,7 +19,6 @@ import com.ddr.MainUserMenu;
 import com.ddr.R;
 import com.ddr.logic.Flight;
 import com.ddr.ui.Reservations.ReservationsFragment;
-import com.ddr.ui.Reservations.ReservationsViewModel;
 
 import org.w3c.dom.Text;
 
