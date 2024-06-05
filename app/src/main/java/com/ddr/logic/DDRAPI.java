@@ -57,4 +57,7 @@ public interface DDRAPI {
     @POST("/reservation")
     Call<Void> addReservation(@Body ReservationDTO reservation);
 
+    @GET("user/{id}")
+    Call<User> getUser(@Path("id") long id);
+
 }

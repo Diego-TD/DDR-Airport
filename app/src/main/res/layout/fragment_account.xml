@@ -79,27 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
-
-                        <TextView
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:text="Password:"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:textColor="@color/white"
-                            android:layout_weight="1"/>
-
-                        <EditText
-                            android:id="@+id/pass"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:hint="Password"
-                            android:textSize="16sp"
-                            android:textColorHint="@color/white"
-                            android:textColor="@color/white"
-                            android:layout_weight="2"/>
-                    </LinearLayout>
+                        android:layout_marginBottom="16dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
