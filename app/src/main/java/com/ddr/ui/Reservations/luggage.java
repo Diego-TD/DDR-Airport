@@ -17,6 +17,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.ddr.R;
 
+import android.app.Activity;
+
 public class luggage extends AppCompatActivity {
 
     private CardView zero;
@@ -80,16 +82,12 @@ public class luggage extends AppCompatActivity {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //bonjour monde,  je suis mexicain, je m'apelle Ramiro, et je a un ami avec le nom Esteban.
-                Intent intent = new Intent(context, BoardingPass.class);
-                intent.putExtra("luggage", luggageText.getText());
-                setResult(AppCompatActivity.RESULT_OK,intent);
+                Intent intent = new Intent();
+                intent.putExtra("luggage", luggageText.getText().toString());
+                setResult(Activity.RESULT_OK, intent);
                 finish();
-                //setResult(RESULT_OK, intent);
             }
         });
-
     }
-
-
 }
+

@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface DDRAPI {
@@ -59,5 +60,6 @@ public interface DDRAPI {
 
     @GET("user/{id}")
     Call<User> getUser(@Path("id") long id);
-
+    @PUT("/reservation/{id}")
+    Call<Reservation> updateReservation(@Path("id") long id, @Body Reservation reservation);
 }

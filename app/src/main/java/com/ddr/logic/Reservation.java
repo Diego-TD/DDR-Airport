@@ -7,7 +7,7 @@ public class Reservation {
     private Flight flight;
     private User user;
     private String createdAt;
-    private Integer luggage;
+    private String luggage;
     private Double total;
 
 
@@ -15,7 +15,7 @@ public class Reservation {
 
     }
 
-    public Reservation(Long id, Flight flight, User user, String createdAt, Integer luggage, Double total) {
+    public Reservation(Long id, Flight flight, User user, String createdAt, String luggage, Double total) {
         this.id = id;
         this.flight = flight;
         this.user = user;
@@ -56,11 +56,11 @@ public class Reservation {
         this.createdAt = createdAt;
     }
 
-    public Integer getLuggage() {
+    public String getLuggage() {
         return luggage;
     }
 
-    public void setLuggage(Integer luggage) {
+    public void setLuggage(String luggage) {
         this.luggage = luggage;
     }
 

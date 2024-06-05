@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -100,60 +101,67 @@ public class oneWay extends Fragment {
         });
 
         searchButton.setOnClickListener(v -> {
-            Retrofit retrofit = RetrofitClient.getClient();
-            DDRAPI api = retrofit.create(DDRAPI.class);
-            DDRS ddrSINGLETON = DDRS.getDDRSINGLETON(getContext());
-            List<Airport> airports = new ArrayList<>();
-            Airport departureAirport = null;
-            Airport arrivalAirport = null;
+            if (!fromTextView.getText().toString().isEmpty() || !toTextView.getText().toString().isEmpty() || !departure.getText().toString().isEmpty()) {
 
-            for (AirportCityCountries airportCityCountries :
-                    ddrSINGLETON.getAirportCityCountriesList()) {
-                airports.add(airportCityCountries.getAirport());
-            }
 
-            for (Airport airport : airports) {
-                if (airport.getName().equals(fromTextView.getText().toString())) {
-                    departureAirport = airport;
+                Retrofit retrofit = RetrofitClient.getClient();
+                DDRAPI api = retrofit.create(DDRAPI.class);
+                DDRS ddrSINGLETON = DDRS.getDDRSINGLETON(getContext());
+                List<Airport> airports = new ArrayList<>();
+                Airport departureAirport = null;
+                Airport arrivalAirport = null;
+
+                for (AirportCityCountries airportCityCountries :
+                        ddrSINGLETON.getAirportCityCountriesList()) {
+                    airports.add(airportCityCountries.getAirport());
                 }
 
-                if (airport.getName().equals(toTextView.getText().toString())) {
-                    arrivalAirport = airport;
+                for (Airport airport : airports) {
+                    if (airport.getName().equals(fromTextView.getText().toString())) {
+                        departureAirport = airport;
+                    }
+
+                    if (airport.getName().equals(toTextView.getText().toString())) {
+                        arrivalAirport = airport;
+                    }
                 }
+
+                for (int i = 0; i < 2; i++) {
+                    FlightDTO flightDTO = new FlightDTO();
+                    flightDTO.setDate(dateToSearch);
+                    assert departureAirport != null;
+                    flightDTO.setDepartureAirportId(departureAirport.getId());
+                    assert arrivalAirport != null;
+                    flightDTO.setArrivalAirportId(arrivalAirport.getId());
+                    flightDTO.setDepartureTime(randomHoursArray[i]);
+                    flightDTO.setArrivalTime(randomHoursArray[i + 1]);
+                    flightDTO.setAirplaneId(1L);
+
+                    Call<Void> call = api.addFlight(flightDTO);
+
+                    call.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            Log.d("searchFlights", "Flight added successfully");
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable throwable) {
+                            Log.d("searchFlights", "Failed to search flights");
+                        }
+                    });
+                }
+                Intent in = new Intent(getContext(), SearchFlights.class);
+                in.putExtra("date", dateToSearch);
+                in.putExtra("departureAirport", fromTextView.getText().toString());
+                in.putExtra("arrivalAirport", toTextView.getText().toString());
+                startActivity(in);
             }
+            else {
+                Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
 
-            for (int i = 0; i < 2; i++) {
-                FlightDTO flightDTO = new FlightDTO();
-                flightDTO.setDate(dateToSearch);
-                assert departureAirport != null;
-                flightDTO.setDepartureAirportId(departureAirport.getId());
-                assert arrivalAirport != null;
-                flightDTO.setArrivalAirportId(arrivalAirport.getId());
-                flightDTO.setDepartureTime(randomHoursArray[i]);
-                flightDTO.setArrivalTime(randomHoursArray[i + 1]);
-                flightDTO.setAirplaneId(1L);
-
-                Call<Void> call = api.addFlight(flightDTO);
-
-                call.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        Log.d("searchFlights", "Flight added successfully");
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable throwable) {
-                        Log.d("searchFlights", "Failed to search flights");
-                    }
-                });
             }
-            Intent in = new Intent(getContext(), SearchFlights.class);
-            in.putExtra("date", dateToSearch);
-            in.putExtra("departureAirport", fromTextView.getText().toString());
-            in.putExtra("arrivalAirport", toTextView.getText().toString());
-            startActivity(in);
-
         });
 
         return rootView;

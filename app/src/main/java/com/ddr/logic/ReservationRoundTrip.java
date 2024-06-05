@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class ReservationRoundTrip extends Reservation {
 
     private Flight returnFlight;
-    public ReservationRoundTrip(Long id, Flight flight, Flight returnFlight, User user, String createdAt, Integer luggage, Double total) {
+    public ReservationRoundTrip(Long id, Flight flight, Flight returnFlight, User user, String createdAt, String luggage, Double total) {
         super(id, flight, user, createdAt, luggage, total);
         this.returnFlight = returnFlight;
     }
