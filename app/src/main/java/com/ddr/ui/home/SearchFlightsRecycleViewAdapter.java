@@ -5,19 +5,16 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ddr.R;
-import com.ddr.logic.Airport;
 import com.ddr.logic.AirportCityCountries;
 import com.ddr.logic.City;
 import com.ddr.logic.DDRS;
 import com.ddr.logic.Flight;
-import com.ddr.logic.Reservation;
 import com.ddr.ui.Reservations.RecyclerViewInterface;
 
 import java.util.ArrayList;
@@ -45,6 +42,7 @@ public class SearchFlightsRecycleViewAdapter extends RecyclerView.Adapter<com.dd
         return new SearchFlightsRecycleViewAdapter.MyViewHolder(view, recyclerViewInterface);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         List<AirportCityCountries> airportCityCountriesList = ddrSINGLETON.getAirportCityCountriesList();
@@ -62,8 +60,8 @@ public class SearchFlightsRecycleViewAdapter extends RecyclerView.Adapter<com.dd
 
         holder.origen.setText(departureCity.getName());
         holder.destino.setText(arrivalCity.getName());
-        holder.horaSalida.setText(flights.get(position).getTime());
-        holder.horaLlegada.setText(flights.get(position).getTime());
+        holder.horaSalida.setText(flights.get(position).getDepartureTime());
+        holder.horaLlegada.setText(flights.get(position).getArrivalTime());
         holder.numeroVuelo.setText(flights.get(position).getId().toString());
         holder.fechaSalida.setText(flights.get(position).getDate());
     }

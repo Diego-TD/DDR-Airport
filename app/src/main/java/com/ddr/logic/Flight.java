@@ -10,21 +10,22 @@ public class Flight  {
     private Airplane airplane;
     private Airport departureAirport;
     private Airport arrivalAirport;
-    private String name;
     private String date;
-    private String time;
+    private String departureTime;
+    private String arrivalTime;
     private Double price;
     public Flight() {
 
     }
 
-    public Flight(Long id, Airplane airplane, Airport departureAirport, Airport arrivalAirport, String date, String time, Double price) {
+    public Flight(Long id, Airplane airplane, Airport departureAirport, Airport arrivalAirport, String name, String date, String departureTime, String arrivalTime, Double price) {
         this.id = id;
         this.airplane = airplane;
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
         this.date = date;
-        this.time = time;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
         this.price = price;
     }
 
@@ -52,14 +53,6 @@ public class Flight  {
         this.departureAirport = departureAirport;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Airport getArrivalAirport() {
         return arrivalAirport;
     }
@@ -76,12 +69,20 @@ public class Flight  {
         this.date = date;
     }
 
-    public String getTime() {
-        return time;
+    public String getDepartureTime() {
+        return departureTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     public Double getPrice() {

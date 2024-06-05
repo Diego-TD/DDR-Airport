@@ -63,8 +63,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.origen.setText(departureCity.getName());
         holder.destino.setText(arrivalCity.getName());
-        holder.horaSalida.setText(reservationsViewModels.get(position).getFlight().getTime());
-        holder.horaLlegada.setText(reservationsViewModels.get(position).getFlight().getTime());
+        holder.horaSalida.setText(reservationsViewModels.get(position).getFlight().getDepartureTime());
+        holder.horaLlegada.setText(reservationsViewModels.get(position).getFlight().getArrivalTime());
         holder.numeroVuelo.setText(reservationsViewModels.get(position).getFlight().getId().toString());
         holder.fechaSalida.setText(reservationsViewModels.get(position).getFlight().getDate());
     }

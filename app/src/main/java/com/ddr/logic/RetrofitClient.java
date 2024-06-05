@@ -11,7 +11,7 @@ public class RetrofitClient {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl("https://ddr-airport-back-kfzd5spnca-vp.a.run.app")
-                    //.baseUrl("http://192.168.0.9:8080") // for testing
+                    //.baseUrl("http://10.20.149.168:8080") // for testing
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

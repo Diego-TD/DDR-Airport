@@ -9,17 +9,18 @@ public class FlightDTO {
     private Long departureAirportId;
     private Long arrivalAirportId;
     private String date;
-    private String time;
-    private String name;
+    private String departureTime;
+    private String arrivalTime;
     public FlightDTO() {
     }
 
-    public FlightDTO(Long airplaneId, Long departureAirportId, Long arrivalAirportId, String date, String time) {
+    public FlightDTO(Long airplaneId, Long departureAirportId, Long arrivalAirportId, String date, String departureTime, String arrivalTime) {
         this.airplaneId = airplaneId;
         this.departureAirportId = departureAirportId;
         this.arrivalAirportId = arrivalAirportId;
         this.date = date;
-        this.time = time;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
     }
 
     public Long getAirplaneId() {
@@ -38,14 +39,6 @@ public class FlightDTO {
         this.departureAirportId = departureAirportId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Long getArrivalAirportId() {
         return arrivalAirportId;
     }
@@ -62,11 +55,19 @@ public class FlightDTO {
         this.date = date;
     }
 
-    public String getTime() {
-        return time;
+    public String getDepartureTime() {
+        return departureTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 }

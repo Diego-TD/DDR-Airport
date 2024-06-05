@@ -122,28 +122,28 @@ public class oneWay extends Fragment {
                 }
             }
 
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 2; i++) {
                 FlightDTO flightDTO = new FlightDTO();
                 flightDTO.setDate(dateToSearch);
                 assert departureAirport != null;
                 flightDTO.setDepartureAirportId(departureAirport.getId());
                 assert arrivalAirport != null;
                 flightDTO.setArrivalAirportId(arrivalAirport.getId());
-                flightDTO.setTime("12:00:00");
+                flightDTO.setDepartureTime(randomHoursArray[i]);
+                flightDTO.setArrivalTime(randomHoursArray[i + 1]);
                 flightDTO.setAirplaneId(1L);
 
                 Call<Void> call = api.addFlight(flightDTO);
 
                 call.enqueue(new Callback<Void>() {
-
                     @Override
-                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                    public void onResponse(Call<Void> call, Response<Void> response) {
                         Log.d("searchFlights", "Flight added successfully");
 
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable throwable) {
+                    public void onFailure(Call<Void> call, Throwable throwable) {
                         Log.d("searchFlights", "Failed to search flights");
                     }
                 });

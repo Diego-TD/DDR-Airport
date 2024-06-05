@@ -182,8 +182,8 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
         intent.putExtra("destiny", departureCity.getName());
         intent.putExtra("origin", arrivalCity.getName());
         intent.putExtra("date", reservationsViewModels.get(position).getFlight().getDate());
-        intent.putExtra("arrive", reservationsViewModels.get(position).getFlight().getTime());
-        intent.putExtra("departure", reservationsViewModels.get(position).getFlight().getTime());
+        intent.putExtra("arrive", reservationsViewModels.get(position).getFlight().getArrivalTime());
+        intent.putExtra("departure", reservationsViewModels.get(position).getFlight().getDepartureTime());
         intent.putExtra("number", reservationsViewModels.get(position).getFlight().getId());
         intent.putExtra("maleta", reservationsViewModels.get(position).getLuggage());
 
