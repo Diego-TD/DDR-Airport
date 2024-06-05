@@ -77,6 +77,10 @@ public class oneWay extends Fragment {
         fromTextView = rootView.findViewById(R.id.fromTextView);
         toTextView = rootView.findViewById(R.id.toTextView);
         searchButton = rootView.findViewById(R.id.search_button);
+        String[] randomHoursArray = getResources().getStringArray(R.array.random_hours_array);
+
+
+
 
         if (getArguments() != null) {
             String cityName = getArguments().getString("cityName");
@@ -133,7 +137,7 @@ public class oneWay extends Fragment {
                 call.enqueue(new Callback<Void>() {
 
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
+                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                         Log.d("searchFlights", "Flight added successfully");
 
                     }

@@ -154,5 +154,18 @@
         <item>Female</item>
         <item>Other</item>
     </string-array>
+    <string-array name="random_hours_array">
+        <item>03:00</item>
+        <item>14:00</item>
+        <item>08:00</item>
+        <item>22:00</item>
+        <item>01:00</item>
+        <item>18:00</item>
+        <item>06:00</item>
+        <item>23:00</item>
+        <item>10:00</item>
+        <item>16:00</item>
+    </string-array>
+
 
 </resources>

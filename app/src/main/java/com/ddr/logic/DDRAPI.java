@@ -1,6 +1,7 @@
 package com.ddr.logic;
 
 import com.ddr.logic.util.FlightDTO;
+import com.ddr.logic.util.ReservationDTO;
 
 import java.util.List;
 
@@ -54,6 +55,6 @@ public interface DDRAPI {
     Call<Reservation> getReservation(@Path("id") long id);
 
     @POST("/reservation")
-    Call<Void> addReservation(@Body Reservation reservation);
+    Call<Void> addReservation(@Body ReservationDTO reservation);
 
 }

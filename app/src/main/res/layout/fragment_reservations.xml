@@ -11,7 +11,7 @@
         android:id="@+id/reservationFragmentTextViewFeedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Loading reservations"
+        android:text="Loading reservations..."
         android:textColor="#000000"
         android:textSize="16sp"
         android:visibility="visible"

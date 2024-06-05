@@ -26,6 +26,7 @@ import com.ddr.logic.Flight;
 import com.ddr.logic.Reservation;
 import com.ddr.logic.RetrofitClient;
 import com.ddr.logic.util.FlightDTO;
+import com.ddr.logic.util.ReservationDTO;
 import com.ddr.ui.Reservations.RecyclerViewAdapter;
 import com.ddr.ui.Reservations.RecyclerViewInterface;
 
@@ -46,7 +47,7 @@ public class SearchFlights extends AppCompatActivity implements RecyclerViewInte
 
     private RecyclerView recycleView;
     private SearchFlightsRecycleViewAdapter adapter;
-    private int vueloId = R.drawable.vuelo;
+    private int vueloIdImage = R.drawable.vuelo;
     private ArrayList<Flight> flights;
     TextView departingFlights;
     private int planeImage = R.drawable.tbgca201;
@@ -132,7 +133,7 @@ public class SearchFlights extends AppCompatActivity implements RecyclerViewInte
             }
 
             @Override
-            public void onFailure(Call<List<Flight>> call, Throwable throwable) {
+            public void onFailure(@NonNull Call<List<Flight>> call, @NonNull Throwable throwable) {
                 //ReservationFragmentTextViewFeedback.setText("Error fetching reservations: " + throwable.getMessage());
                 Log.e("flights", "Error fetching flights: " + throwable.getMessage());
             }
@@ -142,8 +143,34 @@ public class SearchFlights extends AppCompatActivity implements RecyclerViewInte
     @Override
     public void onItemClick(int position) {
 
+        ReservationDTO reservationDTO = new ReservationDTO();
+        reservationDTO.setFlightId(flights.get(position).getId());
+        reservationDTO.setUserId(ddrSINGLETON.getUserId());
+        reservationDTO.setLuggage(1);
+        Retrofit retrofit = RetrofitClient.getClient();
+        DDRAPI ddrapi = retrofit.create(DDRAPI.class);
+        Call<Void> call = ddrapi.addReservation(reservationDTO);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                Log.d("searchFlights", "Flight added successfully🎉");
+                finish();
 
 
-        finish();
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable throwable) {
+                Log.d("searchFlights", "Reservation failed🤨");
+
+            }
+
+        });
     }
-}
+//        ddrSINGLETON.getReservationsList().add(reservationDTO);
+
+
+
+
+    }
