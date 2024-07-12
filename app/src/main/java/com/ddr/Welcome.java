@@ -1,5 +1,6 @@
 package com.ddr;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
@@ -7,6 +8,7 @@ import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -14,13 +16,18 @@ import androidx.core.view.WindowInsetsCompat;
 public class Welcome extends AppCompatActivity {
 
     Button loginButton, signUpButton;
+
+
+
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_welcome);
 
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         loginButton = findViewById(R.id.activity_welcome_btn_login);
         signUpButton = findViewById(R.id.activity_welcome_btn_sign_up);
 

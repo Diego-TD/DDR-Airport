@@ -33,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class ReservationsFragment extends Fragment implements RecyclerViewInterface{
+public class ReservationsFragment extends Fragment implements RecyclerViewInterface {
     private DDRS ddrSINGLETON;
     private FragmentReservationsBinding binding;
     protected ArrayList<Reservation> reservationsViewModels = new ArrayList<>();
@@ -41,9 +41,8 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
     private RecyclerView recyclerView;
     private TextView reservationFragmentTextViewFeedback;
 
-    public ReservationsFragment(){
+    public ReservationsFragment() {}
 
-    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,8 +57,6 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
         recyclerView.setAdapter(adapter);
         reservationFragmentTextViewFeedback = root.findViewById(R.id.reservationFragmentTextViewFeedback);
         reservationFragmentTextViewFeedback.bringToFront();
-        //reservationsViewModels.add(new ReservationsViewModel("No Hay Vuelos ", "No Hay Vuelos", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", "No Hay Vuelos ", vueloId,"3"));
-//        setUpReservationsModel();
 
         return root;
     }
@@ -84,9 +81,7 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
 
                 reservationsViewModels.addAll(reservations);
                 adapter.notifyDataSetChanged();
-                //TODO: Implement some UI to provide feedback, like, here we could hidden a textview
                 reservationFragmentTextViewFeedback.setVisibility(View.GONE);
-
             }
 
             @Override
@@ -113,17 +108,17 @@ public class ReservationsFragment extends Fragment implements RecyclerViewInterf
         }
 
         Intent intent = new Intent(requireContext(), BoardingPass.class);
-        //startActivityForResult(intent, position);
         intent.putExtra("destiny", departureCity.getName());
         intent.putExtra("origin", arrivalCity.getName());
         intent.putExtra("date", reservationsViewModels.get(position).getFlight().getDate());
         intent.putExtra("arrive", reservationsViewModels.get(position).getFlight().getArrivalTime());
         intent.putExtra("departure", reservationsViewModels.get(position).getFlight().getDepartureTime());
-        intent.putExtra("number", reservationsViewModels.get(position).getFlight().getId());
+        intent.putExtra("fligthId", reservationsViewModels.get(position).getFlight().getId());
         intent.putExtra("maleta", reservationsViewModels.get(position).getLuggage());
         intent.putExtra("price", reservationsViewModels.get(position).getTotal().toString());
+        intent.putExtra("reservationId", reservationsViewModels.get(position).getId());
 
-        //Log.d("ReservationsFragment", "Starting BoardingPass activity");
         startActivity(intent);
     }
+
 }
