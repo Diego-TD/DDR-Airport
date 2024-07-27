@@ -5,9 +5,9 @@ package com.ddr.logic.util;
 
         private Long flightId;
         private Long userId;
-        private Integer luggage;
+        private String luggage;
 
-        public ReservationDTO( Long flightId,  Long userId,  Integer luggage) {
+        public ReservationDTO( Long flightId,  Long userId,  String luggage) {
             this.flightId = flightId;
             this.userId = userId;
             this.luggage = luggage;
@@ -34,11 +34,11 @@ package com.ddr.logic.util;
             this.userId = userId;
         }
 
-        public Integer getLuggage() {
+        public String getLuggage() {
             return luggage;
         }
 
-        public void setLuggage( Integer luggage) {
+        public void setLuggage( String luggage) {
             this.luggage = luggage;
         }
     }

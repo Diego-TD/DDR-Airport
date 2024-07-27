@@ -97,7 +97,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     if (recyclerViewInterface != null){
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION){
-                            recyclerViewInterface.onItemClick(position);
+                            try {
+                                recyclerViewInterface.onItemClick(position);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 }

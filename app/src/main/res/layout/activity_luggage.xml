@@ -43,7 +43,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/maleta_removebg_preview" />
+                app:srcCompat="@drawable/maleta_removebg_previewzero" />
 
             <TextView
                 android:id="@+id/textView"
@@ -86,7 +86,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/__maletas_removebg_preview" />
+                app:srcCompat="@drawable/__maletas_removebg_preview_basic" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -103,8 +103,8 @@
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="165dp"
-                android:layout_height="65dp"
+                android:layout_width="166dp"
+                android:layout_height="75dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:text="1 personal item (must fit under the seat in front of you). 1 hand luggage. The combined weight of the personal item and hand luggage must not exceed 20 kg."
@@ -141,7 +141,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/maletas_removebg_preview" />
+                app:srcCompat="@drawable/maletas_removebg_previewplus" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -158,8 +158,8 @@
 
             <TextView
                 android:id="@+id/textView8"
-                android:layout_width="165dp"
-                android:layout_height="65dp"
+                android:layout_width="170dp"
+                android:layout_height="74dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:text="1 personal item (must fit under the seat in front of you). 2 hand luggage. 1 checked suitcase up to 25 kg."

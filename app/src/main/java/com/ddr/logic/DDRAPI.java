@@ -43,7 +43,7 @@ public interface DDRAPI {
     @POST("/flights")
     Call<List<Flight>> getFlightsByAirports(@Body FlightDTO flightDTO);
 
-    @GET("/flights/{id}")
+    @GET("/flight/{id}")
     Call<Flight> getFlight(@Path("id") long id);
 
     @GET("/reservations")

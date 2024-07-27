@@ -1,5 +1,6 @@
 package com.ddr.ui.Reservations;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -79,6 +80,7 @@ public class luggage extends AppCompatActivity {
             }
         });
 
+
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +90,14 @@ public class luggage extends AppCompatActivity {
                 finish();
             }
         });
+
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK, returnIntent);
+        finish();
     }
 }
 

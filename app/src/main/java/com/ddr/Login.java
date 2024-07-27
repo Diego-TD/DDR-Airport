@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -31,7 +32,7 @@ import retrofit2.Retrofit;
 public class Login extends AppCompatActivity {
     private EditText editTextLogInEmail,editTextLogInPassword;
     private ImageButton imageButton;
-    private Button loginButton;
+    private Button loginButton,fillButton;
     private boolean eye;
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
@@ -40,13 +41,13 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         editTextLogInEmail = findViewById(R.id.editTextLogInEmail);
         loginButton = findViewById(R.id.loginButton);
         editTextLogInPassword = findViewById(R.id.editTextLogInPassword);
         imageButton = findViewById(R.id.imageButton);
         editTextLogInPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
+        fillButton = findViewById(R.id.fillButton);
         eye = false;
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -55,7 +56,13 @@ public class Login extends AppCompatActivity {
             return insets;
         });
 
-
+fillButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        editTextLogInEmail.setText("Juan");
+        editTextLogInPassword.setText("password");
+    }
+});
         editTextLogInEmail.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus && editTextLogInEmail.getText().toString().equals("Email")) {
                 editTextLogInEmail.setText("");

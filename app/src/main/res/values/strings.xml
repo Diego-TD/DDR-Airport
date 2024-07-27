@@ -9,6 +9,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="retur_n">Return</string>
+    <string name="luggageZero" >1 personal item (must fit under the seat in front of you). Hand luggage is not included in this option.</string>
+    <string name="luggageBasic">1 personal item (must fit under the seat in front of you). 1 hand luggage. The combined weight of the personal item and hand luggage must not exceed 20 kg.</string>
+    <string name="luggagePlus"> 1 personal item (must fit under the seat in front of you). 2 hand luggage. 1 checked suitcase up to 25 kg.</string>
     <string-array name="fromAirports">
         <!-- México -->
         <item>México City International Airport, MX</item>

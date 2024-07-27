@@ -19,7 +19,6 @@ import com.ddr.logic.DDRAPI;
 import com.ddr.logic.DDRS;
 import com.ddr.logic.Reservation;
 import com.ddr.logic.RetrofitClient;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.List;
@@ -62,7 +61,7 @@ public class BoardingPass extends AppCompatActivity {
         String fecha = getIntent().getStringExtra("date");
         String llegada = getIntent().getStringExtra("arrive");
         String salida = getIntent().getStringExtra("departure");
-        long numero = getIntent().getLongExtra("flightId", -1);
+        long numero = getIntent().getLongExtra("number", -1);
         String maleta = getIntent().getStringExtra("maleta");
 
         departureTime.setText(salida);
@@ -103,87 +102,74 @@ accept.setOnClickListener(v -> {
             }
         }
     }
-    public void setLuggage(String luggage) {
-        Retrofit retrofit = RetrofitClient.getClient();
-        DDRAPI api = retrofit.create(DDRAPI.class);
 
+    public void setLuggage(String luggage) {
+        Retrofit retrofit = RetrofitClient.getClient(); // Obtener instancia de Retrofit
+        DDRAPI api = retrofit.create(DDRAPI.class); // Crear instancia de la interfaz DDRAPI
+
+        // Verificar si el ID de reserva es válido
         if (reservationId != -1) {
-            // Obtener la reserva existente desde el servidor
+            // Paso 1: Obtener la reserva existente desde el servidor
             Call<Reservation> getCall = api.getReservation(reservationId);
             getCall.enqueue(new Callback<Reservation>() {
                 @Override
                 public void onResponse(@NonNull Call<Reservation> call, @NonNull Response<Reservation> response) {
                     if (response.isSuccessful() && response.body() != null) {
+                        // Paso 2: Actualizar la información de equipaje en la reserva obtenida
                         Reservation reservation = response.body();
                         reservation.setLuggage(luggage);
 
-                        // Log de la reserva actualizada
-                        Gson gson = new Gson();
-                        String reservationJson = gson.toJson(reservation);
-                        Log.d("setLuggage", "Updated Reservation JSON: " + reservationJson);
-
-                        // Hacer una llamada PUT para actualizar la reserva con la nueva información de equipaje
+                        // Paso 3: Hacer una llamada PUT para actualizar la reserva con la nueva información de equipaje
                         Call<Reservation> updateCall = api.updateReservation(reservation.getId(), reservation);
                         updateCall.enqueue(new Callback<Reservation>() {
                             @Override
                             public void onResponse(@NonNull Call<Reservation> call, @NonNull Response<Reservation> response) {
                                 if (response.isSuccessful()) {
+                                    // Actualización exitosa
                                     Log.d("setLuggage", "¡La información de equipaje se ha actualizado correctamente!");
-                                    Log.d("Reservation id", String.valueOf(reservation.getId()));
+                                    Log.d("Reservation id", String.valueOf(reservationId));
                                 } else {
-                                    handleUpdateError(response);
+                                    // Error al actualizar la reserva
+                                    Log.e("setLuggage", "Error al actualizar la reserva: " + response.message());
+                                    try {
+                                        if (response.errorBody() != null) {
+                                            Log.e("setLuggage", "Error body: " + response.errorBody().string());
+                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
 
                             @Override
                             public void onFailure(@NonNull Call<Reservation> call, @NonNull Throwable t) {
-                                Log.e("setLuggage", "Error en la llamada de actualización: " + t.getMessage(), t);
+                                // Error en la llamada (red, conversión de datos, etc.)
+                                Log.e("setLuggage", "Error en la llamada de actualización: " + t.getMessage());
                             }
                         });
                     } else {
-                        handleGetReservationError(response);
+                        // Error al obtener la reserva
+                        Log.e("setLuggage", "Error al obtener la reserva: " + response.message());
+                        try {
+                            if (response.errorBody() != null) {
+                                Log.e("setLuggage", "Error body: " + response.errorBody().string());
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<Reservation> call, @NonNull Throwable t) {
-                    Log.e("setLuggage", "Error en la llamada de obtención de reserva: " + t.getMessage(), t);
+                    // Error en la llamada (red, conversión de datos, etc.)
+                    Log.e("setLuggage", "Error en la llamada de obtención de reserva: " + t.getMessage());
                 }
             });
         } else {
+            // ID de reserva inválido
             Log.e("setLuggage", "ID de reserva inválido");
         }
     }
 
-    private void handleGetReservationError(@NonNull Response<Reservation> response) {
-        Log.e("setLuggage", "Error al obtener la reserva: " + response.message());
-        try {
-            if (response.errorBody() != null) {
-                String errorBody = response.errorBody().string();
-                Log.e("setLuggage", "Error body: " + errorBody);
-            }
-        } catch (IOException e) {
-            Log.e("setLuggage", "Error reading error body", e);
-        }
-    }
-
-    private void handleUpdateError(@NonNull Response<Reservation> response) {
-        Log.e("setLuggage", "Error al actualizar la reserva: " + response.message());
-        try {
-            if (response.errorBody() != null) {
-                String errorBody = response.errorBody().string();
-                Log.e("setLuggage", "Error body: " + errorBody);
-            }
-        } catch (IOException e) {
-            Log.e("setLuggage", "Error reading error body", e);
-        }
-    }
 }
-
-
-
-
-
-
-
-
