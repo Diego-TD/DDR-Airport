@@ -38,6 +38,7 @@ import retrofit2.Retrofit;
 public class oneWay extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String FLIGHT_TYPE = "ONE_WAY";
 
     private String mParam1;
     private String mParam2;
@@ -101,7 +102,7 @@ public class oneWay extends Fragment {
         });
 
         searchButton.setOnClickListener(v -> {
-            if (!fromTextView.getText().toString().isEmpty() || !toTextView.getText().toString().isEmpty() || !departure.getText().toString().isEmpty()) {
+            if (!fromTextView.getText().toString().isEmpty() && !toTextView.getText().toString().isEmpty() && !departure.getText().toString().isEmpty()) {
 
 
                 Retrofit retrofit = RetrofitClient.getClient();
@@ -126,7 +127,7 @@ public class oneWay extends Fragment {
                     }
                 }
 
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i <   2; i++) {
                     FlightDTO flightDTO = new FlightDTO();
                     flightDTO.setDate(dateToSearch);
                     assert departureAirport != null;
@@ -138,12 +139,16 @@ public class oneWay extends Fragment {
                     flightDTO.setAirplaneId(1L);
 
                     Call<Void> call = api.addFlight(flightDTO);
-
                     call.enqueue(new Callback<Void>() {
                         @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
+                        public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                             Log.d("searchFlights", "Flight added successfully");
-
+                            Intent in = new Intent(getContext(), SearchFlights.class);
+                            in.putExtra("date", dateToSearch);
+                            in.putExtra("departureAirport", fromTextView.getText().toString());
+                            in.putExtra("arrivalAirport", toTextView.getText().toString());
+                            in.putExtra("FLIGHT_TYPE", FLIGHT_TYPE);
+                            startActivity(in);
                         }
 
                         @Override
@@ -152,11 +157,7 @@ public class oneWay extends Fragment {
                         }
                     });
                 }
-                Intent in = new Intent(getContext(), SearchFlights.class);
-                in.putExtra("date", dateToSearch);
-                in.putExtra("departureAirport", fromTextView.getText().toString());
-                in.putExtra("arrivalAirport", toTextView.getText().toString());
-                startActivity(in);
+
             }
             else {
                 Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();

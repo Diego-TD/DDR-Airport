@@ -2,10 +2,10 @@ package com.ddr.ui.home;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +14,30 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.net.ParseException;
 import androidx.fragment.app.Fragment;
 
-import com.ddr.Login;
 import com.ddr.R;
+import com.ddr.logic.Airport;
+import com.ddr.logic.AirportCityCountries;
+import com.ddr.logic.DDRAPI;
+import com.ddr.logic.DDRS;
+import com.ddr.logic.RetrofitClient;
+import com.ddr.logic.util.FlightDTO;
+import com.ddr.ui.Reservations.Luggage;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,14 +50,22 @@ public class roundTrip extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String FLIGHT_TYPE = "ROUND_TRIP";
+    private long departureFlightId;
+    private long returnFlightId;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 private Button searchButton;
     boolean isRoundTrip = false;
-
+    private String dateToSearch;
+    private String dateToSearchReturn;
     private TextView fromTextViewRoundTrip,toTextViewRoundTrip,departure,retur_n;
+    private  List<Airport> airports = new ArrayList<>();
+    private final DDRS ddrsSINGLETON = DDRS.getDDRSINGLETON(getContext());
+    private final Retrofit retrofit = RetrofitClient.getClient();
+
 
     public roundTrip() {
         // Required empty public constructor
@@ -87,6 +109,7 @@ private Button searchButton;
         departure = rootView.findViewById(R.id.departureRounTrip);
         retur_n = rootView.findViewById(R.id.returnRoundTrip);
         searchButton = rootView.findViewById(R.id.search_button_round_trip);
+
         fromTextViewRoundTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,17 +121,8 @@ private Button searchButton;
             @Override
             public void onClick(View v) {
                 Intent in =new Intent(requireContext(), SearchAirports.class);
-//                in.putExtra("fromTextViewRoundTrip",fromTextViewRoundTrip.getText().toString());
-//                in.putExtra("toTextViewRoundTrip",toTextViewRoundTrip.getText().toString());
+
                 startActivityForResult(in,2);
-//                if (toTextViewRoundTrip.getText().toString().equals(fromTextViewRoundTrip.getText().toString())){
-//                    new AlertDialog.Builder(requireContext())
-//                            .setTitle("???")
-//                            .setMessage("Ciudad repetida, Favor de ingresar otra")
-//                            .setPositiveButton("Ok",null)
-//                            .show();
-//                            toTextViewRoundTrip.setText("");
-//                }
 
             }
         });
@@ -116,38 +130,39 @@ private Button searchButton;
 
             @Override
             public void onClick(View v) {
-                if (fromTextViewRoundTrip.getText().toString().isEmpty()
-                        || toTextViewRoundTrip.getText().toString().isEmpty()
-                        || departure.getText().toString().isEmpty()
-                        || retur_n.getText().toString().isEmpty()){
+                if (!fromTextViewRoundTrip.getText().toString().isEmpty()
+                        && !toTextViewRoundTrip.getText().toString().isEmpty()
+                        && !departure.getText().toString().isEmpty()
+                        && !retur_n.getText().toString().isEmpty()){
 
-                    new AlertDialog.Builder(requireContext())
-                            .setTitle("Campos Vacíos")
-                            .setMessage("Favor de llenar todos los campos")
-                            .setPositiveButton("OK", null)
-                            .show();
-                    return;
-                }
-                if (fromTextViewRoundTrip.getText().toString().equals(toTextViewRoundTrip.getText().toString())){
-                    new AlertDialog.Builder(requireContext())
-                            .setTitle("Ciudades iguales")
-                            .setMessage("Favor de ingresar ciudades diferentes")
-                            .setPositiveButton("OK", null)
-                            .show();
-                    return;
-                }
-                Intent in = new Intent(requireContext(),SearchFlights.class);
-                in.putExtra("isRoundTrip",isRoundTrip);
-                in.putExtra("fromTxt",fromTextViewRoundTrip.getText().toString());
-                in.putExtra("toTxt",toTextViewRoundTrip.getText().toString());
-                startActivityForResult(in,2);
-        }});
-        departure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCalendarPopup(departure, retur_n);
+
+                    DDRAPI api = retrofit.create(DDRAPI.class);
+
+                    Airport departureAirport = null;
+                    Airport arrivalAirport = null;
+                        for (AirportCityCountries airport : ddrsSINGLETON.getAirportCityCountriesList()){
+                            airports.add(airport.getAirport());
+                            }
+                        for (Airport airport : airports){
+                            if (airport.getName().equals(fromTextViewRoundTrip.getText().toString())){
+                                departureAirport = airport;
+                            }
+                            if (airport.getName().equals(toTextViewRoundTrip.getText().toString())){
+                                arrivalAirport = airport;
+                        }
+
+                        }
+                        if (departureAirport != null && arrivalAirport != null) {
+                            callFlights(departureAirport, arrivalAirport, api, 9, 4, dateToSearch);
+                        }
+                        else {
+                            Log.e("RoundTrip", "Failed to find matching airports.");
+                        }
+        }
             }
         });
+
+        departure.setOnClickListener(v -> showCalendarPopup(departure, retur_n));
 
         retur_n.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,6 +181,51 @@ private Button searchButton;
 
         return rootView;
     }
+
+    private void callFlights( Airport departureAirport, Airport arrivalAirport, DDRAPI api, int requestCode, int flightsCalled, String dateToSearch) {
+        String[] randomHoursArray = getResources().getStringArray(R.array.random_hours_array);
+        final int[] succesfulCall = {0};
+        for (int i = 0; i < flightsCalled; i++) {
+
+
+            FlightDTO flightDTO = new FlightDTO();
+            flightDTO.setDate(dateToSearch);
+            flightDTO.setDepartureAirportId(departureAirport.getId());
+            flightDTO.setArrivalAirportId(arrivalAirport.getId());
+            flightDTO.setDepartureTime(randomHoursArray[i]);
+            flightDTO.setArrivalTime(randomHoursArray[i + 1]);
+            flightDTO.setAirplaneId(1L);
+
+            Call<Void> call = api.addFlight(flightDTO);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        succesfulCall[0]++;
+                        if (flightsCalled == succesfulCall[0]) {
+                            Intent intent = new Intent(requireContext(), SearchFlights.class);
+                            new android.os.Handler().postDelayed(() -> {
+                                intent.putExtra("date", dateToSearch);
+                                intent.putExtra("departureAirport", fromTextViewRoundTrip.getText().toString());
+                                intent.putExtra("arrivalAirport", toTextViewRoundTrip.getText().toString());
+                                intent.putExtra("FLIGHT_TYPE", FLIGHT_TYPE);
+                                startActivityForResult(intent, requestCode);
+
+                            }, 2000);
+                        }
+
+                        Log.d("RoundTrip success", response.toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Void> call, @NonNull Throwable throwable) {
+                Log.d("RoundTrip failure",throwable.toString());
+                }
+            });
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -177,53 +237,109 @@ private Button searchButton;
                     fromTextViewRoundTrip.setText(cityName);
                 }
             }
-        }else {
+        }else if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK){
                 if (data != null){
                     String cityName = data.getStringExtra("cityName");
                    toTextViewRoundTrip.setText(cityName);
                 }
             }
+        } else if (requestCode == 9) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null){
+                   departureFlightId = data.getLongExtra("flightId",-1);
+                    Log.d("RoundTrip", "Before swap: From: " + fromTextViewRoundTrip.getText() + ", To: " + toTextViewRoundTrip.getText());
+                    String temp = fromTextViewRoundTrip.getText().toString();
+                    fromTextViewRoundTrip.setText(toTextViewRoundTrip.getText().toString());
+                    toTextViewRoundTrip.setText(temp);
+                    Log.d("RoundTrip", "After swap: From: " + fromTextViewRoundTrip.getText() + ", To: " + toTextViewRoundTrip.getText());
+                    toTextViewRoundTrip.setText(temp);
+                   DDRAPI api = retrofit.create(DDRAPI.class);
+                    Airport departureAirport = null;
+                    Airport arrivalAirport = null;
+                    for (AirportCityCountries airport : ddrsSINGLETON.getAirportCityCountriesList()){
+                        airports.add(airport.getAirport());
+                    }
+                    for (Airport airport : airports){
+                        if (airport.getName().equals(fromTextViewRoundTrip.getText().toString())){
+                            departureAirport = airport;
+                        }
+                        if (airport.getName().equals(toTextViewRoundTrip.getText().toString())){
+                            arrivalAirport = airport;
+                        }
+
+
+                    }
+                    if (departureAirport != null && arrivalAirport != null) {
+                        callFlights(departureAirport, arrivalAirport, api, 8, 4, dateToSearchReturn);
+                    }
+
+
+
+                }
+            }
+
+        }
+        else if (requestCode == 8) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null){
+                    Log.d("departureFlightId",String.valueOf(departureFlightId));
+                    Log.d("returnFlightId",String.valueOf(returnFlightId));
+                    returnFlightId = data.getLongExtra("flightId",-1);
+                    Intent inten = new Intent(requireContext(), Luggage.class);
+                    startActivityForResult(inten,7);
+
+
+
+                }
+            }
+        } else if (requestCode == 7) {
+            Intent intent = new Intent(requireContext(), ItineraryRoundTrip.class);
+            String luggage = data.getStringExtra("luggage");
+            intent.putExtra("luggage",luggage);
+            intent.putExtra("departureFlightId",departureFlightId);
+            intent.putExtra("returnFlightId",returnFlightId);
+            startActivity(intent);
         }
     }
     private void showCalendarPopup(TextView departure, TextView returnTextView) {
-        // Obtenemos la fecha actual
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        // Creamos el DatePickerDialog para la salida
         DatePickerDialog departureDatePickerDialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                dateToSearch = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
                 String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                 departure.setText(selectedDate);
             }
         }, year, month, dayOfMonth);
 
-        // Mostramos el DatePickerDialog para la salida
         departureDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         departureDatePickerDialog.show();
     }
 
+
+
     private void showReturnCalendarPopup(TextView departure, TextView returnTextView) {
-        // Obtenemos la fecha actual
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        // Creamos el DatePickerDialog para el retorno, limitando la fecha mínima a dos días después de la fecha seleccionada en salida
         DatePickerDialog returnDatePickerDialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                dateToSearchReturn = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
                 String returnDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                 returnTextView.setText(returnDate);
             }
         }, year, month, dayOfMonth);
 
-        // Limitamos la fecha mínima a dos días después de la fecha seleccionada en salida
         if (!departure.getText().toString().isEmpty()) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             try {
@@ -240,4 +356,4 @@ private Button searchButton;
         returnDatePickerDialog.show();
     }
 
-}
+    }

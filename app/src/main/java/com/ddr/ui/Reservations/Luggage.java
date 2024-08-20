@@ -1,6 +1,5 @@
 package com.ddr.ui.Reservations;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -20,7 +17,7 @@ import com.ddr.R;
 
 import android.app.Activity;
 
-public class luggage extends AppCompatActivity {
+public class Luggage extends AppCompatActivity {
 
     private CardView zero;
     private CardView basic;
@@ -92,12 +89,6 @@ public class luggage extends AppCompatActivity {
         });
 
     }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent returnIntent = new Intent();
-        setResult(RESULT_OK, returnIntent);
-        finish();
-    }
+
 }
 

@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -29,7 +28,7 @@ import com.ddr.logic.RetrofitClient;
 import com.ddr.logic.util.FlightDTO;
 import com.ddr.logic.util.ReservationDTO;
 import com.ddr.ui.Reservations.RecyclerViewInterface;
-import com.ddr.ui.Reservations.luggage;
+import com.ddr.ui.Reservations.Luggage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +49,7 @@ public class SearchFlights extends AppCompatActivity implements RecyclerViewInte
     private int planeImage = R.drawable.tbgca201;
     private DDRS ddrSINGLETON;
     private ReservationDTO reservationDTO;
+    private String flightType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,26 +68,28 @@ public class SearchFlights extends AppCompatActivity implements RecyclerViewInte
             recycleView.setLayoutManager(new LinearLayoutManager(this));
             adapter = new SearchFlightsRecycleViewAdapter(this, flights, this);
             recycleView.setAdapter(adapter);
-
+            flightType = getIntent().getStringExtra("FLIGHT_TYPE");
             ddrSINGLETON = DDRS.getDDRSINGLETON(getApplicationContext());
+//            if (flightType != null && flightType.equals("ONE_WAY")) {
+                Intent in = getIntent();
+                String date = "";
+                String departureAirport = "";
+                String arrivalAirport = "";
+                if (in != null) {
+                    String dateFromIntent = in.getStringExtra("date");
+                    String departureAirportFromIntent = in.getStringExtra("departureAirport");
+                    String arrivalAirportFromIntent = in.getStringExtra("arrivalAirport");
+                    departureAirport = departureAirportFromIntent;
+                    arrivalAirport = arrivalAirportFromIntent;
+                    date = dateFromIntent;
 
-            Intent in = getIntent();
-            String date = "";
-            String departureAirport = "";
-            String arrivalAirport = "";
-            if (in != null) {
-                String dateFromIntent = in.getStringExtra("date");
-                String departureAirportFromIntent = in.getStringExtra("departureAirport");
-                String arrivalAirportFromIntent = in.getStringExtra("arrivalAirport");
-                departureAirport = departureAirportFromIntent;
-                arrivalAirport = arrivalAirportFromIntent;
-                date = dateFromIntent;
+                }
+                String departingFlightsText = getString(R.string.departing_flights_text, departureAirport, arrivalAirport);
+                getFlights(departureAirport, arrivalAirport, date);
 
-            }
-            String departingFlightsText = getString(R.string.departing_flights_text, departureAirport, arrivalAirport);
-            getFlights(departureAirport, arrivalAirport, date);
+                departingFlights.setText(departingFlightsText);
 
-            departingFlights.setText(departingFlightsText);
+
             return insets;
         });
     }
@@ -106,6 +108,7 @@ public class SearchFlights extends AppCompatActivity implements RecyclerViewInte
             }
         }
 
+
         FlightDTO flight = new FlightDTO();
         flight.setDepartureAirportId(departureAirportId);
         flight.setArrivalAirportId(arrivalAirportId);
@@ -121,23 +124,23 @@ public class SearchFlights extends AppCompatActivity implements RecyclerViewInte
                 Log.d("Flights", "Received flights");
                 assert flightsResponse != null;
                 if (flightsResponse.isEmpty()) {
-                    //reservationFragmentTextViewFeedback.setText("You don't have reservations");
-                    //reservationFragmentTextViewFeedback.setVisibility(View.VISIBLE);
+
                     return;
                 }
 
                 flights.addAll(flightsResponse);
                 adapter.notifyDataSetChanged();
-                //reservationFragmentTextViewFeedback.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Flight>> call, @NonNull Throwable throwable) {
-                //ReservationFragmentTextViewFeedback.setText("Error fetching reservations: " + throwable.getMessage());
+
                 Log.e("flights", "Error fetching flights: " + throwable.getMessage());
             }
         });
+
     }
+
 
     @Override
     public void onItemClick(int position) throws InterruptedException {
@@ -145,24 +148,38 @@ public class SearchFlights extends AppCompatActivity implements RecyclerViewInte
         reservationDTO = new ReservationDTO();
         reservationDTO.setFlightId(flightId);
         reservationDTO.setUserId(ddrSINGLETON.getUserId());
-
-
-                    Intent intent = new Intent(getApplicationContext(), luggage.class);
-                    startActivityForResult(intent, 6);
+        if (flightType != null && flightType.equals("ONE_WAY")) {
+            Intent intent = new Intent(getApplicationContext(), Luggage.class);
+            startActivityForResult(intent, 6);
+        }
+        else {
+            flightId = flights.get(position).getId();
+            reservationDTO.setFlightId(flightId);
+            Intent intent = new Intent();
+            intent.putExtra("flightId", flightId);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        }
 
 
 
     }
 
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK, returnIntent);
+        finish();
+    }
 
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 6 && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == 6 && resultCode == Activity.RESULT_OK && data != null) {   
 
             String luggage = data.getStringExtra("luggage");
             long flightId = reservationDTO.getFlightId();

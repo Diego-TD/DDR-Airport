@@ -1,7 +1,5 @@
 package com.ddr.ui.home;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import com.ddr.R;
 import com.ddr.logic.Airport;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.MyViewHolder> {
     private final RecycleViewInterface recycleViewInterface;
@@ -35,7 +32,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.row,parent,false);
+        View view = inflater.inflate(R.layout.search_airports_row,parent,false);
         return new RecycleViewAdapter.MyViewHolder(view,recycleViewInterface);
     }
 

@@ -21,7 +21,6 @@ import com.ddr.logic.Reservation;
 import com.ddr.logic.RetrofitClient;
 
 import java.io.IOException;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -78,7 +77,7 @@ public class BoardingPass extends AppCompatActivity {
         personalize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), luggage.class);
+                Intent intent = new Intent(getApplicationContext(), Luggage.class);
                 intent.putExtra("maleta", luggageType.getText().toString());
                 startActivityForResult(intent, 1);
             }

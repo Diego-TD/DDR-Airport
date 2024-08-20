@@ -123,7 +123,7 @@ private  ImageView imageView7;
     }
     public void setLuggage(){
         Intent in = getIntent();
-        String luggage = getIntent().getStringExtra("luggage");
+        String luggage = in.getStringExtra("luggage");
         switch (Objects.requireNonNull(luggage)){
             case "Zero":
                 luggageText.setText(luggage);

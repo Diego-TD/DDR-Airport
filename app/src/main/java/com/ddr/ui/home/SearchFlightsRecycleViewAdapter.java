@@ -38,7 +38,7 @@ public class SearchFlightsRecycleViewAdapter extends RecyclerView.Adapter<com.dd
     @Override
     public com.ddr.ui.home.SearchFlightsRecycleViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.coso, parent, false);
+        View view = inflater.inflate(R.layout.flights_row, parent, false);
         return new SearchFlightsRecycleViewAdapter.MyViewHolder(view, recyclerViewInterface);
     }
 

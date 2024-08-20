@@ -29,7 +29,7 @@ public class MainUserMenu extends AppCompatActivity {
     private ActivityMainMenuBinding binding;
     private DDRS ddrSINGLETON;
     private SimpleDateFormat timeFormat;
-    TextView time;
+    private TextView time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
